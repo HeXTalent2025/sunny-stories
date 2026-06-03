@@ -719,6 +719,203 @@
       font-size: 0.78rem; color: var(--text-soft); opacity: 0.8;
     }
 
+/* ── PASSPORT EXPLAINER SECTION ──────────────────────────── */
+.passport-section {
+  background: linear-gradient(160deg, #1a4a78 0%, #306ca4 50%, #38a2c2 100%);
+  padding: 5rem 2rem;
+  color: #fff;
+}
+.passport-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 780px) {
+  .passport-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+.passport-text .section-label { color: rgba(255,255,255,.65); display: block; margin-bottom: .5rem; }
+.passport-text h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700; color: #fff;
+  line-height: 1.15; margin-bottom: 1rem;
+}
+.passport-text h2 em { font-style: italic; color: var(--ocean-bright); }
+.passport-text p { font-size: .95rem; color: rgba(255,255,255,.82); line-height: 1.75; margin-bottom: .8rem; }
+.passport-edu-note {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-top: 1.4rem;
+  font-size: .88rem;
+  color: rgba(255,255,255,.85);
+  line-height: 1.65;
+}
+.passport-edu-note strong { color: #fff; }
+.passport-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: #fff; color: var(--ocean-deep);
+  font-size: .95rem; font-weight: 700;
+  text-decoration: none;
+  padding: .85rem 1.8rem; border-radius: 50px;
+  margin-top: 1.6rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+  transition: transform .18s, box-shadow .18s;
+}
+.passport-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.2); }
+/* Visual passport card */
+.passport-visual {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 24px;
+  padding: 2rem;
+  backdrop-filter: blur(8px);
+}
+.passport-visual-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem; font-weight: 700; color: #fff;
+  margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.passport-phase-block { margin-bottom: 1.2rem; }
+.passport-phase-label {
+  font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.55);
+  margin-bottom: .6rem;
+}
+.passport-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.passport-chip {
+  font-size: .78rem; font-weight: 600;
+  border-radius: 20px; padding: .28rem .75rem;
+  white-space: nowrap;
+}
+.passport-chip.personal { background: rgba(187,222,255,.25); color: #d4eeff; border: 1px solid rgba(187,222,255,.3); }
+.passport-chip.discover { background: rgba(64,219,225,.2); color: #a0eff5; border: 1px solid rgba(64,219,225,.3); }
+.passport-arrow {
+  text-align: center; font-size: .8rem;
+  color: rgba(255,255,255,.4);
+  margin: .5rem 0;
+}
+.passport-visual-footer {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,.15);
+  display: flex; justify-content: space-between;
+  font-size: .8rem; color: rgba(255,255,255,.65);
+}
+.passport-visual-stat strong { display: block; font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
+
+/* ── REDESIGNED PRICING ──────────────────────────────────── */
+.pricing-divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2.5rem 0 1.5rem;
+  max-width: 500px;
+  margin-left: auto; margin-right: auto;
+}
+.pricing-divider-line { flex: 1; height: 1px; background: rgba(48,108,164,.15); }
+.pricing-divider-text {
+  font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-soft);
+  white-space: nowrap;
+}
+/* Passport hero pricing card */
+.pricing-passport-card {
+  max-width: 740px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #1a4a78 0%, #306ca4 50%, #38a2c2 100%);
+  border-radius: 24px;
+  padding: 2.5rem 2.5rem 2rem;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(48,108,164,.25);
+}
+@media (max-width: 640px) {
+  .pricing-passport-card { grid-template-columns: 1fr; }
+}
+.pricing-passport-card::before {
+  content: '🗺️';
+  position: absolute; top: -10px; right: 24px;
+  font-size: 80px; opacity: .12;
+}
+.pp-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(255,255,255,.18);
+  border-radius: 20px; padding: .28rem .85rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: #fff;
+  margin-bottom: .9rem;
+}
+.pp-title { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+.pp-sub { font-size: .9rem; color: rgba(255,255,255,.78); margin-bottom: 1.2rem; }
+.pp-features { list-style: none; margin-bottom: 1.6rem; display: flex; flex-direction: column; gap: .5rem; }
+.pp-features li { font-size: .88rem; color: rgba(255,255,255,.88); display: flex; align-items: flex-start; gap: .5rem; line-height: 1.5; }
+.pp-features li::before { content: '✦'; color: var(--ocean-bright); flex-shrink: 0; margin-top: 1px; }
+.pp-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: #fff; color: var(--ocean-deep);
+  font-size: .95rem; font-weight: 700;
+  text-decoration: none;
+  padding: .9rem 1.8rem; border-radius: 50px;
+  transition: transform .18s, box-shadow .18s;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}
+.pp-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.pp-note { margin-top: .75rem; font-size: .78rem; color: rgba(255,255,255,.55); }
+/* Right column price display */
+.pp-price-col { text-align: center; min-width: 120px; }
+.pp-price-num {
+  font-family: 'Fraunces', serif;
+  font-size: 3.2rem; font-weight: 700;
+  color: #fff; line-height: 1;
+}
+.pp-price-num sup { font-size: 1.4rem; vertical-align: super; }
+.pp-price-period { font-size: .82rem; color: rgba(255,255,255,.65); margin-top: .2rem; }
+.pp-price-equiv { font-size: .75rem; color: rgba(255,255,255,.5); margin-top: .25rem; }
+
+/* ── GIFT STRIP ──────────────────────────────────────────── */
+.gift-strip {
+  background: var(--sand-light);
+  border-top: 1px solid rgba(48,108,164,.08);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.gift-strip-inner {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+}
+.gift-strip-icon { font-size: 2rem; }
+.gift-strip-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--ocean-deep);
+}
+.gift-strip-desc { font-size: .9rem; color: var(--text-soft); line-height: 1.65; }
+.gift-strip-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--terracotta); color: #fff;
+  font-size: .9rem; font-weight: 600;
+  text-decoration: none;
+  padding: .75rem 1.6rem; border-radius: 50px;
+  margin-top: .4rem;
+  transition: background .2s, transform .2s;
+  box-shadow: 0 4px 14px rgba(216,110,89,.3);
+}
+.gift-strip-btn:hover { background: #c05030; transform: translateY(-2px); }
+.gift-strip-note { font-size: .78rem; color: var(--text-soft); }
+
     .location-chip.pink  { border-color: rgba(255,187,206,0.6); }
     .location-chip.pink:hover  { background: var(--pastel-pink); border-color: #d86e59; }
     .location-chip.purple { border-color: rgba(217,187,255,0.6); }
@@ -1109,6 +1306,72 @@
   </div>
 </section>
 
+<!-- PASSPORT EXPLAINER -->
+<section class="passport-section">
+  <div class="passport-inner">
+
+    <div class="passport-text reveal">
+      <span class="section-label">Australia Story Passport</span>
+      <h2>Discover Australia,<br>one story <em>at a time</em></h2>
+      <p>Start with the places your family loves. Then, week by week, let us take your child on an adventure across the whole country — Uluru, the Great Barrier Reef, the Daintree Rainforest, Cradle Mountain — stamping a new Australian landmark into their passport every Monday.</p>
+      <p>After one year: 52 stories. 52 places explored. A complete Australia Story Passport that belongs only to them.</p>
+      <div class="passport-edu-note">
+        <strong>The quiet magic parents love:</strong> while your child thinks they're on an adventure, they're actually learning that Uluru is 550 million years old, that the Great Barrier Reef can be seen from space, and that the Daintree is the oldest rainforest on Earth. Real Australian facts, woven naturally into every story.
+      </div>
+      <a href="/app?plan=subscription" class="passport-cta">
+        Start your passport — $9.99/mo
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="passport-visual reveal reveal-delay-1">
+      <div class="passport-visual-title">🗺️ Lily's Australia Story Passport</div>
+
+      <div class="passport-phase-block">
+        <div class="passport-phase-label">Phase 1 — Your family's favourites</div>
+        <div class="passport-chips">
+          <span class="passport-chip personal">🏖️ Mooloolaba Beach</span>
+          <span class="passport-chip personal">🌿 Noosa National Park</span>
+          <span class="passport-chip personal">🌋 Glass House Mountains</span>
+          <span class="passport-chip personal">🦘 Australia Zoo</span>
+        </div>
+      </div>
+
+      <div class="passport-arrow">↓ then we take the adventure further</div>
+
+      <div class="passport-phase-block">
+        <div class="passport-phase-label">Phase 2 — Discover Australia 🌏</div>
+        <div class="passport-chips">
+          <span class="passport-chip discover">🪨 Uluru</span>
+          <span class="passport-chip discover">🐠 Great Barrier Reef</span>
+          <span class="passport-chip discover">🏔️ Blue Mountains</span>
+          <span class="passport-chip discover">🐧 Phillip Island</span>
+          <span class="passport-chip discover">🌿 Daintree Rainforest</span>
+          <span class="passport-chip discover">🏔️ Cradle Mountain</span>
+          <span class="passport-chip discover">🪨 Kakadu</span>
+          <span class="passport-chip discover">🐾 Rottnest Island</span>
+        </div>
+      </div>
+
+      <div class="passport-visual-footer">
+        <div class="passport-visual-stat">
+          <strong>52</strong>
+          stories after 1 year
+        </div>
+        <div class="passport-visual-stat">
+          <strong>52</strong>
+          places explored
+        </div>
+        <div class="passport-visual-stat">
+          <strong>$9.99</strong>
+          per month
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- YOTO -->
 <section id="yoto" class="section-full yoto-section">
   <div class="section" style="padding-top:0;padding-bottom:0;">
@@ -1143,22 +1406,56 @@
 <!-- PRICING -->
 <section id="pricing" class="section-full pricing-bg">
   <div class="section" style="padding-top:0;padding-bottom:0;">
+
     <div class="pricing-center reveal">
-      <div class="section-label" style="justify-content:center;">Simple, honest pricing</div>
-      <h2>Try one, or get the <em>full collection</em></h2>
-      <p>Start with a single story to see what your family thinks — or go straight to the full collection and get 10 stories for $2.50 each.</p>
+      <div class="section-label" style="justify-content:center;">Pricing</div>
+      <h2>Three ways to <em>get your stories</em></h2>
     </div>
 
-    <div class="pricing-plans">
+    <!-- Passport hero — full-width featured card -->
+    <div class="pricing-passport-card reveal">
+      <div>
+        <div class="pp-badge">✨ Most popular · Story of the Week</div>
+        <div class="pp-title">Australia Story Passport</div>
+        <div class="pp-sub">One brand new personalised audio story, delivered every Monday.</div>
+        <ul class="pp-features">
+          <li>A new story every week — your child is always the hero</li>
+          <li>Starts in your favourite places, then discovers Australia</li>
+          <li>Genuine Australian facts woven naturally into each adventure</li>
+          <li>Stories grow richer as your child grows older</li>
+          <li>52 stories · 52 Australian places after 1 year</li>
+          <li>Cancel any time — every story stays yours forever</li>
+        </ul>
+        <a href="/app?plan=subscription" class="pp-cta">
+          Start my Story Passport
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="pp-note">First story delivered immediately · Cancel any time</div>
+      </div>
+      <div class="pp-price-col">
+        <div class="pp-price-num"><sup>$</sup>9.99</div>
+        <div class="pp-price-period">per month</div>
+        <div class="pp-price-equiv">~$2.50 per story</div>
+      </div>
+    </div>
 
-      <!-- Single story -->
-      <div class="pricing-plan reveal">
+    <!-- One-time divider -->
+    <div class="pricing-divider reveal">
+      <div class="pricing-divider-line"></div>
+      <div class="pricing-divider-text">Or, a one-time purchase</div>
+      <div class="pricing-divider-line"></div>
+    </div>
+
+    <!-- One-time plans -->
+    <div class="pricing-plans reveal">
+
+      <div class="pricing-plan">
         <div class="plan-type-label">Try it out</div>
         <div class="plan-price-main"><span>$</span>2.99</div>
         <div class="plan-per">1 personalised audio story</div>
         <ul class="plan-features">
           <li>1 original story starring your child by name</li>
-          <li>Australian-accented narration</li>
+          <li>Australian-accented narration included</li>
           <li>Set in your favourite Australian location</li>
           <li>Customisable Story DNA before you pay</li>
           <li>Downloadable MP3 — works on Yoto</li>
@@ -1170,8 +1467,7 @@
         <div class="price-note">No account required · delivered in ~1 minute</div>
       </div>
 
-      <!-- Bundle -->
-      <div class="pricing-plan featured reveal reveal-delay-1">
+      <div class="pricing-plan featured">
         <div class="plan-recommended">Best value</div>
         <div class="plan-type-label">Full Collection</div>
         <div class="plan-price-main"><span>$</span>25</div>
@@ -1196,39 +1492,19 @@
 
     </div>
 
-    <!-- Subscription plan -->
-    <div class="pricing-plan sub-plan reveal" style="margin-top:1.5rem;max-width:500px;margin-left:auto;margin-right:auto;background:linear-gradient(135deg,#f0fdfb,#e8f8fc);border-color:rgba(64,219,225,.35);">
-      <div class="plan-recommended" style="background:linear-gradient(135deg,#38a2c2,#40dbe1);">Story of the Week ✨</div>
-      <div class="plan-type-label">Australia Story Passport</div>
-      <div class="plan-price-main" style="color:var(--ocean-deep);"><span>$</span>9.99<span style="font-size:1.2rem;font-weight:400;color:var(--text-soft);">/month</span></div>
-      <div class="plan-per">One new personalised story, every Monday</div>
-      <ul class="plan-features">
-        <li>A brand new audio story delivered every week</li>
-        <li>Each story visits a new Australian landmark</li>
-        <li>Builds your child's Australia Story Passport over time</li>
-        <li>Genuine Australian facts woven naturally into each adventure</li>
-        <li>Stories grow richer as your child grows older</li>
-        <li>After 1 year: 52 stories, 52 places explored</li>
-        <li>Cancel any time — your stories stay yours</li>
-      </ul>
-      <a href="/app?plan=subscription" class="btn-primary-large" style="background:var(--ocean);">
-        Start my Story Passport
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <div class="price-note">First story delivered immediately · Cancel any time</div>
-    </div>
+  </div>
+</section>
 
-    <div class="gift-card reveal">
-      <div class="gift-card-icon">🎁</div>
-      <div class="gift-card-title">Give stories as a gift</div>
-      <div class="gift-card-desc">Buying for someone special? We'll create a beautiful gift page they can open and keep — perfect for Mother's Day, birthdays, or just because.</div>
-      <a href="/app?gift=true" class="gift-card-btn">
-        Create a gift collection
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <div class="gift-card-note">Same price · Delivered as a shareable gift link · <a href="/give" style="color:var(--terracotta);text-decoration:underline;">See gift ideas →</a></div>
-    </div>
-
+<!-- GIFT STRIP -->
+<section class="gift-strip">
+  <div class="gift-strip-inner reveal">
+    <div class="gift-strip-icon">🎁</div>
+    <div class="gift-strip-title">Buying for someone special?</div>
+    <div class="gift-strip-desc">Create a beautiful gift page they can open and keep — perfect for Mother's Day, birthdays, grandparents, or just because.</div>
+    <a href="/app?gift=true" class="gift-strip-btn">
+      Create a gift collection →
+    </a>
+    <div class="gift-strip-note">Same price · Delivered as a shareable gift link · <a href="/give" style="color:var(--ocean);">See all gift ideas →</a></div>
   </div>
 </section>
 
