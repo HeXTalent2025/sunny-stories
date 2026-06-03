@@ -312,6 +312,28 @@
       display: block;
     }
     .floating-badge-single strong { display: block; font-size: 1.2rem; }
+    .hero-pricing-strip {
+      display: flex; gap: .5rem; margin-bottom: 1rem;
+    }
+    .hero-plan-pill {
+      flex: 1; text-align: center; text-decoration: none;
+      background: rgba(255,255,255,.9);
+      border: 1.5px solid rgba(56,162,194,.25);
+      border-radius: 12px; padding: .6rem .5rem;
+      transition: all .2s;
+    }
+    .hero-plan-pill:hover { border-color: var(--ocean); background: #fff; transform: translateY(-2px); }
+    .hero-plan-pill.featured-pill {
+      background: var(--ocean-deep); border-color: var(--ocean-deep);
+    }
+    .hero-plan-pill.featured-pill .hero-plan-price,
+    .hero-plan-pill.featured-pill .hero-plan-label { color: #fff; }
+    .hero-plan-price {
+      font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--ocean-deep); line-height: 1.1;
+    }
+    .hero-plan-price span { font-size: .68rem; font-weight: 400; }
+    .hero-plan-label { font-size: .68rem; font-weight: 600; color: var(--text-soft); margin-top: .15rem; }
     .hero-yoto-hint {
       text-align: center; margin-top: 0.75rem;
       font-size: 0.75rem; color: var(--text-soft);
@@ -1114,14 +1136,14 @@
 
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-tag">Australia · Personalised Audio Stories for Kids</div>
+      <div class="hero-tag">Personalised audio stories · Discover Australia together</div>
       <h1>
         Your child.
         Their favourite place.
         <em>Their very own story.</em>
       </h1>
       <p class="hero-sub">
-        Ten stories about your child, set in the Australian places your family loves — narrated in a warm Australian accent, ready to listen to in the car, at bedtime, or whenever the moment's right.
+        Personalised audio stories starring your child in the Australian places your family loves — then, week by week, taking them on a journey of discovery across the whole country.
       </p>
       <div class="hero-cta">
         <a href="/app" class="btn-primary">
@@ -1130,18 +1152,24 @@
         </a>
         <a href="#stories" class="btn-ghost">See sample stories</a>
       </div>
-      <p class="hero-price">10 personalised audio stories · <strong>$25</strong> · delivered instantly</p>
+      <p class="hero-price">Your child. Your places. All of Australia. From <strong>$2.99</strong>.</p>
     </div>
 
     <div class="hero-card-wrap">
-      <div class="floating-badge">
-        <strong>$25</strong>
-        10 audio stories
+      <div class="hero-pricing-strip">
+        <a href="/app?plan=single" class="hero-plan-pill">
+          <div class="hero-plan-price">$2.99</div>
+          <div class="hero-plan-label">Try 1 story</div>
+        </a>
+        <a href="/app" class="hero-plan-pill">
+          <div class="hero-plan-price">$25</div>
+          <div class="hero-plan-label">10 stories</div>
+        </a>
+        <a href="/app?plan=subscription" class="hero-plan-pill featured-pill">
+          <div class="hero-plan-price">$9.99<span>/mo</span></div>
+          <div class="hero-plan-label">Story Passport ✨</div>
+        </a>
       </div>
-      <a href="/app?plan=single" class="floating-badge-single">
-        <strong>$2.99</strong>
-        try 1 story
-      </a>
       <div class="story-card">
         <div class="card-label">Your Story DNA</div>
         <div class="card-child-name">Oscar's Stories</div>
@@ -1187,7 +1215,7 @@
         <div class="step reveal">
           <div class="step-num ocean">1</div>
           <h3>Enter your story details</h3>
-          <p>Their first name, age, favourite Australian spots, hobbies, and the vibe you want — calming, adventurous, silly, or magical. Thirty seconds to fill in.</p>
+          <p>Their name, age, the Australian places your family loves, and the vibe you want — calm, adventurous, silly, or magical. With a Story Passport, we'll also take them beyond your picks to discover new landmarks each week.</p>
           <a href="#faq-privacy" class="privacy-badge">🔒 Your details are secure & never shared</a>
         </div>
         <div class="step reveal reveal-delay-1">
@@ -1197,8 +1225,8 @@
         </div>
         <div class="step reveal reveal-delay-2">
           <div class="step-num dusk">3</div>
-          <h3>10 stories, delivered instantly</h3>
-          <p>Listen anywhere — in the car, at bedtime, on a rainy afternoon. No screen needed.</p>
+          <h3>Stories delivered, Australia discovered</h3>
+          <p>Listen anywhere — in the car, at bedtime, on a rainy afternoon. With a Story Passport, a new adventure arrives every Monday, stamping a new Australian landmark each week.</p>
         </div>
       </div>
     </div>
@@ -1208,43 +1236,43 @@
 <!-- STORY EXCERPTS -->
 <section id="stories" class="section-full excerpts-bg">
   <div class="section" style="padding-top:0;padding-bottom:0;">
-    <div class="section-label">From the stories</div>
-    <h2>This is what <em>their story</em> sounds like</h2>
+    <div class="section-label">From the collection</div>
+    <h2>This is what <em>their adventure</em> sounds like</h2>
 
     <div class="excerpt-cards">
       <div class="excerpt-card reveal">
         <div class="excerpt-location">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
-          Kings Beach
+          Phillip Island, VIC
         </div>
         <div class="excerpt-text">
-          "It was a shell. Round and smooth and perfect, with little pink and cream stripes all the way around. The prettiest thing Lily had ever found. She tucked it carefully into the pocket of her swimmers, right against her hip, where she could feel it whenever she moved."
+          "They came in at dusk, and they were so small. Lily had expected penguins to be tall and serious, like the ones in books. But these ones waddled, and when one stopped and looked right at her, she felt her heart do something it had never done before. 'They know me,' she whispered."
         </div>
-        <div class="excerpt-child">Lily · Age 3 · Wonder arc</div>
+        <div class="excerpt-child">Lily · Age 4 · Wonder arc</div>
         <a href="/stories" class="excerpt-listen-link">🎧 Hear the full story →</a>
       </div>
 
       <div class="excerpt-card reveal reveal-delay-1">
         <div class="excerpt-location">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
-          Noosa National Park
+          Great Barrier Reef, QLD
         </div>
         <div class="excerpt-text">
-          "A full, rolling, warbling song filled the entire forest and came bouncing back off the gum trees. Oscar felt it in his chest, the way you feel music turned up so loud it becomes something else entirely. He forgot about everything except this bird, this branch, this exact moment."
+          "Oscar's face was in the water and the whole world had changed. A fish the colour of a sunset drifted past — then another, striped black and white like a tiny referee. He came up laughing with his mouth full of salt water, already pulling his mask back down."
         </div>
-        <div class="excerpt-child">Oscar · Age 5 · Friendship arc</div>
+        <div class="excerpt-child">Oscar · Age 6 · Discovery arc</div>
         <a href="/stories" class="excerpt-listen-link">🎧 Hear the full story →</a>
       </div>
 
       <div class="excerpt-card reveal reveal-delay-2">
         <div class="excerpt-location">
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
-          Glass House Mountains
+          Uluru, NT
         </div>
         <div class="excerpt-text">
-          "Maya stood with her arms out and her face tilted to the sky and felt two things at exactly the same moment: impossibly small, and completely alive. She thought those two feelings might actually go together. She thought that might be what mountains were for."
+          "The rock seemed to breathe in the last light of the day, shifting from red to amber to something closer to gold. Maya stood very still. She had read that Uluru was 550 million years old — and she understood now, standing here, that some things are too big to be believed until you are actually beside them."
         </div>
-        <div class="excerpt-child">Maya · Age 7 · Wonder arc</div>
+        <div class="excerpt-child">Maya · Age 8 · Wonder arc</div>
         <a href="/stories" class="excerpt-listen-link">🎧 Hear the full story →</a>
       </div>
     </div>
@@ -1284,23 +1312,24 @@
 <section style="background:var(--sand-light);">
   <div class="section">
     <div class="section-label">From Australian families</div>
-    <h2>The part that makes <em>parents cry</em></h2>
+    <h2>The moment they realise <em>it's really them</em></h2>
+    <p style="max-width:520px;color:var(--text-soft);font-family:'Fraunces',serif;font-size:1.05rem;line-height:1.7;margin:0 auto 2.5rem;">Every parent who buys Sunny Stories describes the same moment — when their child suddenly understands that this story, this adventure, this place, was made just for them.</p>
 
     <div class="testimonials">
       <div class="testimonial reveal">
         <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text">"When Lily heard the koala story and realised she was the one who found it at Noosa National Park — our actual favourite walk — she grabbed my arm and said 'Mum, how did they know?' I didn't have words."</div>
-        <div class="testimonial-author">Sarah M. · <span>Noosa</span></div>
+        <div class="testimonial-text">"When Lily heard her story set at our favourite beach walk, she grabbed my arm and said 'Mum, how did they know?' I didn't have words. She has listened to it every night since."</div>
+        <div class="testimonial-author">Sarah M. · <span>Queensland</span></div>
       </div>
       <div class="testimonial reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text">"We visited the Ginger Factory on the weekend, and that night we read Oscar's Ginger Train story. He was so proud. He kept pointing at the pages saying 'that's ME, Dad.' That's $25 I will never regret."</div>
-        <div class="testimonial-author">James T. · <span>Caloundra</span></div>
+        <div class="testimonial-text">"We visited a place on the weekend, and that night Oscar heard his story set there. He kept pointing and saying 'that's ME, Dad.' He was so proud. That's $25 I will never regret."</div>
+        <div class="testimonial-author">James T. · <span>Queensland</span></div>
       </div>
       <div class="testimonial reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
-        <div class="testimonial-text">"Mia has asked for the Australia Zoo story every single night for two weeks. I've read it so many times I have it memorised. It's become her thing — she grabs it herself now."</div>
-        <div class="testimonial-author">Rachel K. · <span>Buderim</span></div>
+        <div class="testimonial-text">"Mia has asked for the same story every single night for two weeks. I've read it so many times I have it memorised. It's become her thing — she reaches for it herself now."</div>
+        <div class="testimonial-author">Rachel K. · <span>Queensland</span></div>
       </div>
     </div>
   </div>
