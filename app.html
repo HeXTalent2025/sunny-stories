@@ -427,9 +427,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     <div class="hero-title">Sunny Stories</div>
     <div class="hero-coast">✦ Personalised Audio Stories for Australian Families ✦</div>
     <div class="price-card">
-      <div class="price-num"><sup>$</sup>15</div>
-      <div class="price-stories">✨ 10 personalised stories</div>
-      <div class="price-detail">$1.50 per story · each one built just for your family</div>
+      <div class="price-num"><sup>$</sup>25</div>
+      <div class="price-stories">✨ 10 personalised audio stories</div>
+      <div class="price-detail">$2.50 per story · narrated in a warm Australian accent</div>
     </div>
     <button class="btn btn-sun" onclick="go('s-form')">✨ Create Our Stories</button>
   </div>
@@ -452,7 +452,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
         <div class="plan-check" id="planSingleCheck"></div>
         <div class="plan-label">Try it out</div>
         <div class="plan-count">1 audio story</div>
-        <div class="plan-price"><sup>$</sup>4.99</div>
+        <div class="plan-price"><sup>$</sup>2.99</div>
       </div>
       <div class="plan-card selected" id="planBundle" onclick="selectPlan('bundle')">
         <div class="plan-badge">Best value</div>
@@ -763,7 +763,7 @@ for(let i=0;i<40;i++){
    STATE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const ST = {
-  plan: 'bundle',          // 'single' ($4.99 · 1 story) | 'bundle' ($25 · 10 stories)
+  plan: 'bundle',          // 'single' ($2.99 · 1 story) | 'bundle' ($25 · 10 stories)
   children: [],
   ages: [],
   friends: [],
@@ -1519,7 +1519,7 @@ function selectPlan(p){
   // Price summary card
   const priceNum=document.getElementById('priceSummaryNum');
   const priceStories=document.getElementById('priceSummaryStories');
-  if(priceNum) priceNum.innerHTML=isSingle?'<sup>$</sup>4.99':'<sup>$</sup>25';
+  if(priceNum) priceNum.innerHTML=isSingle?'<sup>$</sup>2.99':'<sup>$</sup>25';
   if(priceStories) priceStories.textContent=isSingle?'1 personalised audio story':'10 personalised audio stories';
   // Submit button + loading hint
   updateSubmitBtn();
@@ -1535,7 +1535,7 @@ function updateSubmitBtn(){
   const btn=document.getElementById('submitBtn');
   if(!btn)return;
   const isSingle=ST.plan==='single';
-  const price=isSingle?'$4.99':'$25';
+  const price=isSingle?'$2.99':'$25';
   if(ST.giftMode){
     btn.textContent=`🎁 Create Gift Story${isSingle?'':' Collection'} · ${price}`;
   } else {
