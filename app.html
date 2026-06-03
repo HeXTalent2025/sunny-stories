@@ -1917,6 +1917,11 @@ function openStory(idx){
     <span>${costarPromise} The story is set at <strong>${s.location}</strong> and inspired by a love of <strong>${s.interest}</strong>.</span>`;
 
   go('s-reader');
+  // Passport subscribers return to passport on back, everyone else to story list
+  const backBtn=document.querySelector('#s-reader .back-link');
+  if(backBtn) backBtn.onclick=ST.subToken
+    ? ()=>{ renderPassport(); go('s-passport'); }
+    : ()=>go('s-list');
   audioStop();
   document.getElementById('pageDots').style.display='none';
   document.getElementById('readerNav').style.display='none';
@@ -2631,6 +2636,9 @@ async function handleSubscriptionReturn(sessionId){
     ST.friends=formData.friends||[];
     // Build blueprints (1 story for subscription first delivery) and generate
     ST.blueprints = buildBlueprints();
+    // Update loading screen text for subscription
+    const hint=document.getElementById('loadingTimeHint');
+    if(hint) hint.innerHTML='Writing your first personalised story takes around 1 minute.<br>Please keep this page open ✨';
     await runGeneration();
   }catch(e){
     console.error('Subscription return error:',e);
@@ -2667,10 +2675,13 @@ async function loadFromSubToken(token){
   go('s-loading');
   try{
     const res=await fetch(`/api/sub-stories?token=${token}`);
-    if(!res.ok) throw new Error('Not found');
+    if(!res.ok){
+      const err=await res.json().catch(()=>({}));
+      throw new Error(err.error||`HTTP ${res.status}`);
+    }
     const data=await res.json();
-    const stories=data.stories||data;
-    if(!stories?.length) throw new Error('No stories');
+    const stories=Array.isArray(data)?data:(data.stories||[]);
+    if(!stories.length) throw new Error('No stories in passport yet');
     ST.stories=stories;
     ST.subToken=token;
     await delay(400);
@@ -2678,8 +2689,10 @@ async function loadFromSubToken(token){
     go('s-passport');
   }catch(e){
     console.error('Sub token load error:',e);
-    alert('This story passport link doesn\'t seem to work. Please contact hello@sunnystories.co');
-    go('s-form');
+    // Show error in the loading screen rather than alert (works on all devices)
+    document.getElementById('genErrorMsg').textContent=
+      `Couldn't load your Story Passport: ${e.message}. Please email hello@sunnystories.co with your subscription receipt.`;
+    document.getElementById('genError').style.display='block';
   }
 }
 
@@ -2708,14 +2721,7 @@ function renderPassport(){
     </div>`).join('');
 }
 
-function openStory(i){
-  ST.currentStory=i;
-  renderStory();
-  go('s-reader');
-  // Reader back button should return to passport if in sub mode
-  const backBtn=document.querySelector('#s-reader .back-link');
-  if(backBtn&&ST.subToken) backBtn.onclick=()=>{ renderPassport(); go('s-passport'); };
-}
+// openStory() is defined earlier in the file — the passport uses the same function
 
 function showEmailBanner(email){
   const banner=document.getElementById('emailBanner');
