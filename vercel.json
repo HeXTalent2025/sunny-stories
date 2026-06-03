@@ -1,24 +1,37 @@
 {
   "functions": {
-    "api/generate.js": { "maxDuration": 120 },
-    "api/narrate.js":  { "maxDuration": 60  }
+    "api/generate.js":        { "maxDuration": 120 },
+    "api/narrate.js":         { "maxDuration": 60  },
+    "api/cron-weekly.js":     { "maxDuration": 300 }
   },
+  "crons": [
+    {
+      "path": "/api/cron-weekly",
+      "schedule": "0 22 * * 0"
+    }
+  ],
   "rewrites": [
-    { "source": "/api/generate",  "destination": "/api/generate.js"  },
-    { "source": "/api/checkout",  "destination": "/api/checkout.js"  },
-    { "source": "/api/session",   "destination": "/api/session.js"   },
-    { "source": "/api/save",      "destination": "/api/save.js"      },
-    { "source": "/api/stories",   "destination": "/api/stories.js"   },
-    { "source": "/api/narrate",   "destination": "/api/narrate.js"   },
-    { "source": "/app",           "destination": "/app.html"         },
-    { "source": "/stories",       "destination": "/stories.html"     },
-    { "source": "/legal",         "destination": "/legal.html"       },
-    { "source": "/gift",          "destination": "/gift.html"        },
-    { "source": "/give",          "destination": "/give.html"        },
-    { "source": "/logo.svg",      "destination": "/logo.svg"         },
-    { "source": "/og-image.svg",  "destination": "/og-image.svg"     },
-    { "source": "/og-image.png",  "destination": "/og-image.png"     },
-    { "source": "/favicon.ico",   "destination": "/favicon.ico"      },
-    { "source": "/(.*)",          "destination": "/index.html"       }
+    { "source": "/api/generate",          "destination": "/api/generate.js"          },
+    { "source": "/api/checkout",          "destination": "/api/checkout.js"          },
+    { "source": "/api/session",           "destination": "/api/session.js"           },
+    { "source": "/api/save",              "destination": "/api/save.js"              },
+    { "source": "/api/stories",           "destination": "/api/stories.js"           },
+    { "source": "/api/narrate",           "destination": "/api/narrate.js"           },
+    { "source": "/api/subscribe",         "destination": "/api/subscribe.js"         },
+    { "source": "/api/subscribe-session", "destination": "/api/subscribe-session.js" },
+    { "source": "/api/subscribe-save",    "destination": "/api/subscribe-save.js"    },
+    { "source": "/api/sub-stories",       "destination": "/api/sub-stories.js"       },
+    { "source": "/api/cron-weekly",       "destination": "/api/cron-weekly.js"       },
+    { "source": "/api/webhook",           "destination": "/api/webhook.js"           },
+    { "source": "/app",                   "destination": "/app.html"                 },
+    { "source": "/stories",               "destination": "/stories.html"             },
+    { "source": "/legal",                 "destination": "/legal.html"               },
+    { "source": "/gift",                  "destination": "/gift.html"                },
+    { "source": "/give",                  "destination": "/give.html"                },
+    { "source": "/logo.svg",              "destination": "/logo.svg"                 },
+    { "source": "/og-image.svg",          "destination": "/og-image.svg"             },
+    { "source": "/og-image.png",          "destination": "/og-image.png"             },
+    { "source": "/favicon.ico",           "destination": "/favicon.ico"              },
+    { "source": "/(.*)",                  "destination": "/index.html"               }
   ]
 }

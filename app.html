@@ -121,6 +121,26 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
 
 /* PLAN PICKER */
 .plan-picker{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+.plan-card.sub-plan{border-color:rgba(64,219,225,.4);background:linear-gradient(135deg,rgba(64,219,225,.06),rgba(56,162,194,.04));}
+.plan-card.sub-plan:hover{border-color:var(--ocean-bright);}
+.plan-card.sub-plan.selected{border-color:var(--ocean-bright);background:rgba(64,219,225,.1);box-shadow:0 0 0 3px rgba(64,219,225,.2);}
+.plan-card.sub-plan.selected .plan-check{background:var(--ocean-bright);border-color:var(--ocean-bright);color:#fff;}
+.sub-badge{background:linear-gradient(135deg,var(--ocean),var(--ocean-bright))!important;}
+.plan-sub-note{font-size:10px;color:var(--text-soft);margin-top:4px;line-height:1.4;}
+/* Passport screen */
+.passport-header{background:linear-gradient(135deg,#1a4a78,#306ca4 55%,#38a2c2);color:#fff;padding:20px 16px 16px;text-align:center;}
+.passport-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;margin-bottom:4px;}
+.passport-subtitle{font-size:12px;opacity:.8;}
+.passport-stats{display:flex;gap:12px;justify-content:center;margin-top:12px;}
+.passport-stat{background:rgba(255,255,255,.15);border-radius:12px;padding:8px 16px;text-align:center;}
+.passport-stat-num{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#fff;}
+.passport-stat-label{font-size:10px;color:rgba(255,255,255,.75);margin-top:1px;}
+.passport-stamps-wrap{padding:14px 14px 4px;}
+.passport-stamps-title{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.passport-stamps{display:flex;flex-wrap:wrap;gap:6px;}
+.passport-stamp{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid rgba(56,162,194,.2);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;color:var(--ocean-deep);}
+.passport-next{background:rgba(64,219,225,.08);border:1px solid rgba(64,219,225,.2);border-radius:14px;padding:12px 16px;margin:12px 14px;text-align:center;font-size:13px;color:var(--ocean-deep);}
+.passport-next strong{display:block;font-family:'Fraunces',serif;font-size:15px;margin-bottom:2px;}
 .plan-card{border:2px solid rgba(56,162,194,.2);border-radius:16px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;background:#fff;position:relative;}
 .plan-card:hover{border-color:var(--ocean);background:rgba(56,162,194,.04);}
 .plan-card.selected{border-color:var(--ocean);background:rgba(56,162,194,.08);box-shadow:0 0 0 3px rgba(56,162,194,.15);}
@@ -447,7 +467,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
   <!-- Plan picker -->
   <div class="panel">
     <div class="panel-title">✨ Choose your plan</div>
-    <div class="plan-picker">
+    <div class="plan-picker" style="grid-template-columns:1fr 1fr;margin-bottom:8px;">
       <div class="plan-card" id="planSingle" onclick="selectPlan('single')">
         <div class="plan-check" id="planSingleCheck"></div>
         <div class="plan-label">Try it out</div>
@@ -461,6 +481,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
         <div class="plan-count">10 audio stories</div>
         <div class="plan-price"><sup>$</sup>25</div>
       </div>
+    </div>
+    <div class="plan-card sub-plan" id="planSub" onclick="selectPlan('subscription')" style="text-align:center;">
+      <div class="plan-badge sub-badge">✨ New every week</div>
+      <div class="plan-check" id="planSubCheck"></div>
+      <div class="plan-label">Story of the Week</div>
+      <div class="plan-count">1 new story every Monday</div>
+      <div class="plan-price"><sup>$</sup>9.99<span style="font-size:12px;font-weight:400;color:var(--text-soft);">/month</span></div>
+      <div class="plan-sub-note">Builds your Australia Story Passport — new location every week 🗺️</div>
     </div>
   </div>
 
@@ -680,6 +708,36 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
   </div>
 </div>
 
+<!-- ═══════════ PASSPORT ═══════════ -->
+<div id="s-passport" class="screen hidden">
+  <div class="passport-header">
+    <div class="passport-title" id="passportTitle">🗺️ Australia Story Passport</div>
+    <div class="passport-subtitle" id="passportSubtitle">Your growing collection of Australian adventures</div>
+    <div class="passport-stats">
+      <div class="passport-stat">
+        <div class="passport-stat-num" id="passportStoryCount">0</div>
+        <div class="passport-stat-label">Stories</div>
+      </div>
+      <div class="passport-stat">
+        <div class="passport-stat-num" id="passportLocCount">0</div>
+        <div class="passport-stat-label">Places explored</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="passport-stamps-wrap">
+    <div class="passport-stamps-title">🌏 Locations visited</div>
+    <div class="passport-stamps" id="passportStamps"></div>
+  </div>
+
+  <div class="passport-next" id="passportNext">
+    <strong>✨ Next story arriving Monday</strong>
+    A new Australian adventure is on its way
+  </div>
+
+  <div id="passportStoryList" style="padding:0 14px 80px;"></div>
+</div>
+
 <!-- ═══════════ READER ═══════════ -->
 <div id="s-reader" class="screen hidden">
   <div class="reader-top">
@@ -780,6 +838,9 @@ const ST = {
   giftMode: false,
   giftRecipient: '',
   giftToken: null,
+  pendingSubSessionId: null,
+  pendingSubEmail: null,
+  subToken: null,
   audioCache: {},
   audioDuration: {},     // server-calculated durations keyed by story index
   audioAlignment: {},    // word-level timing arrays keyed by story index
@@ -1470,8 +1531,11 @@ async function submitForm(){
   const btn=document.querySelector('button[onclick="submitForm()"]');
   if(btn){btn.disabled=true;btn.textContent='Setting up payment…';}
 
+  const isSub=ST.plan==='subscription';
+  const endpoint=isSub?'/api/subscribe':'/api/checkout';
+
   try{
-    const res=await fetch('/api/checkout',{
+    const res=await fetch(endpoint,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
@@ -1490,10 +1554,14 @@ async function submitForm(){
       return;
     }
     if(data.error) throw new Error(data.error);
-    // Persist gift state across the Stripe redirect
+    // Persist gift state across Stripe redirect
     if(ST.giftMode){
       localStorage.setItem('sst_gift_mode','1');
       localStorage.setItem('sst_gift_recipient',ST.giftRecipient||'');
+    }
+    // Persist subscription state across Stripe redirect
+    if(isSub){
+      localStorage.setItem('sst_sub_mode','1');
     }
     window.location.href=data.url;
   }catch(e){
@@ -1506,27 +1574,32 @@ async function submitForm(){
 function selectPlan(p){
   ST.plan=p;
   const isSingle=p==='single';
-  // Card highlight
+  const isSub=p==='subscription';
+  // Card highlights
   document.getElementById('planSingle').classList.toggle('selected',isSingle);
-  document.getElementById('planBundle').classList.toggle('selected',!isSingle);
+  document.getElementById('planBundle').classList.toggle('selected',!isSingle&&!isSub);
+  document.getElementById('planSub').classList.toggle('selected',isSub);
   document.getElementById('planSingleCheck').textContent=isSingle?'✓':'';
-  document.getElementById('planBundleCheck').textContent=!isSingle?'✓':'';
+  document.getElementById('planBundleCheck').textContent=(!isSingle&&!isSub)?'✓':'';
+  document.getElementById('planSubCheck').textContent=isSub?'✓':'';
   // Locations hint
   const locText=document.getElementById('locPanelText');
   if(locText) locText.textContent=isSingle
     ? 'Pick a place your family loves — we\'ll set your story there.'
+    : isSub
+    ? 'Pick the places you love — we\'ll visit a new one each week as your passport grows.'
     : 'Pick as few as 1 or as many as you like — we\'ll spread them across your 10 stories so each one feels different.';
   // Price summary card
   const priceNum=document.getElementById('priceSummaryNum');
   const priceStories=document.getElementById('priceSummaryStories');
-  if(priceNum) priceNum.innerHTML=isSingle?'<sup>$</sup>2.99':'<sup>$</sup>25';
-  if(priceStories) priceStories.textContent=isSingle?'1 personalised audio story':'10 personalised audio stories';
+  if(priceNum) priceNum.innerHTML=isSingle?'<sup>$</sup>2.99':isSub?'<sup>$</sup>9.99<span style="font-size:14px;font-weight:400;">/mo</span>':'<sup>$</sup>25';
+  if(priceStories) priceStories.textContent=isSingle?'1 personalised audio story':isSub?'Story of the Week + Australia Passport':'10 personalised audio stories';
   // Submit button + loading hint
   updateSubmitBtn();
   const hint=document.getElementById('loadingTimeHint');
   if(hint) hint.innerHTML=isSingle
     ? 'Writing your personalised story takes around 1 minute.<br>Please keep this page open ✨'
-    : 'Writing 10 unique stories takes around 3–5 minutes.<br>Please keep this page open ✨';
+    : 'Writing your stories takes around 2–3 minutes.<br>Please keep this page open ✨';
   // Rebuild blueprints
   updateBlueprintPreview();
 }
@@ -1535,9 +1608,12 @@ function updateSubmitBtn(){
   const btn=document.getElementById('submitBtn');
   if(!btn)return;
   const isSingle=ST.plan==='single';
-  const price=isSingle?'$2.99':'$25';
+  const isSub=ST.plan==='subscription';
+  const price=isSingle?'$2.99':isSub?'$9.99/mo':'$25';
   if(ST.giftMode){
-    btn.textContent=`🎁 Create Gift Story${isSingle?'':' Collection'} · ${price}`;
+    btn.textContent=`🎁 Create Gift ${isSingle?'Story':'Collection'} · ${isSingle?'$2.99':'$25'}`;
+  } else if(isSub){
+    btn.textContent=`🗺️ Start My Story Passport · $9.99/mo`;
   } else {
     btn.textContent=`✨ Get My ${isSingle?'Story':'Audio Stories'} · ${price}`;
   }
@@ -1585,10 +1661,17 @@ async function runGeneration(){
       await saveAndEmail(ST.pendingSessionId);
       ST.pendingSessionId=null;
     }
+    if(ST.pendingSubSessionId){
+      await subscribeAndSave(ST.pendingSubSessionId);
+      ST.pendingSubSessionId=null;
+    }
     await delay(600);
     if(ST.giftMode){
       renderGiftReady();
       go('s-gift-ready');
+    } else if(ST.subToken){
+      renderPassport();
+      go('s-passport');
     } else {
       go('s-list');
       if(ST.purchaseEmail) showEmailBanner(ST.purchaseEmail);
@@ -2500,6 +2583,112 @@ function copyGiftLink(){
   });
 }
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SUBSCRIPTION FLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+async function handleSubscriptionReturn(sessionId){
+  go('s-loading');
+  try{
+    const res=await fetch(`/api/subscribe-session?id=${sessionId}`);
+    if(!res.ok){ const e=await res.json(); throw new Error(e.error||'Session error'); }
+    const {formData,subscriptionId,customerId,email}=await res.json();
+    // Restore form state
+    ST.children=formData.children||[];
+    ST.selectedLocations=formData.selectedLocations||[];
+    ST.vibe=formData.vibe||'adventurous and exciting';
+    ST.storyLength=formData.storyLength||3;
+    ST.plan='subscription';
+    ST.pendingSubSessionId=sessionId;
+    ST.pendingSubEmail=email;
+    ST.friends=formData.friends||[];
+    // Build blueprints and generate first story
+    buildBlueprints();
+    await runGeneration();
+  }catch(e){
+    console.error('Subscription return error:',e);
+    alert('Something went wrong loading your subscription. Please contact hello@sunnystories.co with your receipt.');
+    go('s-form');
+  }
+}
+
+async function subscribeAndSave(sessionId){
+  try{
+    const profile={
+      children:ST.children,
+      selectedLocations:ST.selectedLocations,
+      vibe:ST.vibe,
+      storyLength:ST.storyLength,
+      friends:ST.friends||[],
+    };
+    const res=await fetch('/api/subscribe-save',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({stories:ST.stories,sessionId,profile})
+    });
+    if(!res.ok) throw new Error('Save failed');
+    const {token,email}=await res.json();
+    ST.subToken=token;
+    ST.purchaseEmail=email;
+  }catch(e){
+    console.error('Subscribe save error:',e);
+    // Non-fatal — passport still shows with stories generated in-session
+  }
+}
+
+async function loadFromSubToken(token){
+  go('s-loading');
+  try{
+    const res=await fetch(`/api/sub-stories?token=${token}`);
+    if(!res.ok) throw new Error('Not found');
+    const data=await res.json();
+    const stories=data.stories||data;
+    if(!stories?.length) throw new Error('No stories');
+    ST.stories=stories;
+    ST.subToken=token;
+    await delay(400);
+    renderPassport();
+    go('s-passport');
+  }catch(e){
+    console.error('Sub token load error:',e);
+    alert('This story passport link doesn\'t seem to work. Please contact hello@sunnystories.co');
+    go('s-form');
+  }
+}
+
+function renderPassport(){
+  const stories=ST.stories||[];
+  // Stats
+  const passport=[...new Map(stories.filter(s=>s.location).map(s=>[s.location,{name:s.location,emoji:s.emoji||'📍',area:s.area||''}])).values()];
+  document.getElementById('passportStoryCount').textContent=stories.length;
+  document.getElementById('passportLocCount').textContent=passport.length;
+  // Hero name for title
+  const heroNames=[...new Set(stories.map(s=>s.hero).filter(Boolean))].join(' & ');
+  if(heroNames) document.getElementById('passportTitle').textContent=`🗺️ ${heroNames}'s Passport`;
+  document.getElementById('passportSubtitle').textContent=`${stories.length} ${stories.length===1?'story':'stories'} · ${passport.length} Australian place${passport.length!==1?'s':''} explored`;
+  // Stamps
+  document.getElementById('passportStamps').innerHTML=passport.map(l=>`
+    <div class="passport-stamp">${l.emoji} ${l.name}</div>`).join('');
+  // Story list (reuse story pill format)
+  document.getElementById('passportStoryList').innerHTML=stories.map((s,i)=>`
+    <div class="story-pill" onclick="openStory(${i})" style="cursor:pointer;">
+      <div class="pill-emoji">${s.emoji||'📖'}</div>
+      <div class="pill-body">
+        <div class="pill-title">${s.title||'Story '+(i+1)}</div>
+        <div class="pill-meta"><span class="dna-chip hero" style="font-size:10px;padding:1px 6px;border-radius:10px;background:#bbdeff;color:#1a3a6a;font-weight:600;">⭐ ${s.hero||''}</span> <span style="font-size:11px;color:var(--text-soft);">📍 ${s.location||''}</span></div>
+      </div>
+      <div class="pill-arrow">›</div>
+    </div>`).join('');
+}
+
+function openStory(i){
+  ST.currentStory=i;
+  renderStory();
+  go('s-reader');
+  // Reader back button should return to passport if in sub mode
+  const backBtn=document.querySelector('#s-reader .back-link');
+  if(backBtn&&ST.subToken) backBtn.onclick=()=>{ renderPassport(); go('s-passport'); };
+}
+
 function showEmailBanner(email){
   const banner=document.getElementById('emailBanner');
   if(!banner) return;
@@ -2519,11 +2708,13 @@ renderChildBlocks();
   const p=new URLSearchParams(location.search);
   const token=p.get('token');
   const session=p.get('session');
+  const subSession=p.get('sub_session');
+  const subToken=p.get('sub_token');
   const gift=p.get('gift');
 
   // Pre-select plan from URL param (e.g. /app?plan=single from landing page)
   const planParam=p.get('plan');
-  if(planParam==='single'||planParam==='bundle') selectPlan(planParam);
+  if(planParam==='single'||planParam==='bundle'||planParam==='subscription') selectPlan(planParam);
 
   // Activate gift mode from URL param or restored from localStorage after Stripe redirect
   const savedGift=localStorage.getItem('sst_gift_mode');
@@ -2535,7 +2726,13 @@ renderChildBlocks();
     showGiftMode();
   }
 
-  if(token) loadFromToken(token);
+  // Restore subscription mode from localStorage after Stripe redirect
+  const savedSub=localStorage.getItem('sst_sub_mode');
+  if(savedSub){ ST.plan='subscription'; localStorage.removeItem('sst_sub_mode'); }
+
+  if(subToken) loadFromSubToken(subToken);
+  else if(subSession) handleSubscriptionReturn(subSession);
+  else if(token) loadFromToken(token);
   else if(session) handlePaymentReturn(session);
   // else: s-form is the default visible screen
 })();
