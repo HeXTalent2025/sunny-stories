@@ -425,7 +425,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
   <div class="hero">
     <span class="hero-moon">🌊</span>
     <div class="hero-title">Sunny Stories</div>
-    <div class="hero-coast">✦ Personalised Stories for Sunshine Coast Families ✦</div>
+    <div class="hero-coast">✦ Personalised Audio Stories for Australian Families ✦</div>
     <div class="price-card">
       <div class="price-num"><sup>$</sup>15</div>
       <div class="price-stories">✨ 10 personalised stories</div>
@@ -600,7 +600,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
   <div class="loading-wrap">
     <span class="loading-star">🌊</span>
     <div class="loading-title">Weaving your stories…</div>
-    <div class="loading-msg" id="loadMsg">Sprinkling Sunshine Coast magic<br>into your family's tales…</div>
+    <div class="loading-msg" id="loadMsg">Sprinkling Australian magic<br>into your family's tales…</div>
     <div class="loading-steps" id="loadSteps">
       <div class="step active" id="step0"><div class="step-dot"></div>Building your story blueprint</div>
       <div class="step" id="step1"><div class="step-dot"></div>Assigning locations to each story</div>
@@ -702,7 +702,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     <div class="scene-blob" style="width:150px;height:150px;--bd:5s;--bdelay:2s;bottom:-50px;left:-30px;background:var(--ocean-bright)"></div>
     <div class="scene-blob" style="width:100px;height:100px;--bd:8s;--bdelay:1s;top:40%;left:40%;background:var(--terracotta)"></div>
     <div class="scene-icon" id="sceneIcon">🌊</div>
-    <div class="scene-loc-badge" id="sceneLoc">📍 Sunshine Coast</div>
+    <div class="scene-loc-badge" id="sceneLoc">📍 Australia</div>
   </div>
 
   <!-- ElevenLabs audio bar -->
@@ -1151,10 +1151,10 @@ function buildBlueprints(){
   });
   if(interestPairs.length===0) interestPairs=[{child:children[0].name,interest:'exploring'}];
 
-  // Gather locations — fallback to generic SC spots
+  // Gather locations — fallback to generic Australian setting
   const locs = ST.selectedLocations.length > 0
     ? ST.selectedLocations
-    : [{name:'the Sunshine Coast', area:'', emoji:'🌊', desc:'The beautiful Sunshine Coast of Queensland'}];
+    : [{name:'Australia', area:'', emoji:'🦘', desc:'Beautiful Australia with its golden beaches, ancient outback, and incredible wildlife'}];
 
   // Build costar pool: siblings first, then friends
   // Friends appear as costars in roughly every 3rd story (slots 2,5,8)
@@ -1465,7 +1465,7 @@ function addUserLocation(){
 async function submitForm(){
   if(!ST.children.length){alert('Please add at least one child\'s name! ⭐');return;}
   if(ST.children.some(c=>!c.age)){alert('Please select an age for each child! 🎂');return;}
-  if(!ST.selectedLocations.length){alert('Please pick at least one Sunshine Coast location! 🗺️');return;}
+  if(!ST.selectedLocations.length){alert('Please pick at least one Australian location! 🗺️');return;}
 
   const btn=document.querySelector('button[onclick="submitForm()"]');
   if(btn){btn.disabled=true;btn.textContent='Setting up payment…';}
@@ -1547,7 +1547,7 @@ function updateSubmitBtn(){
    GENERATION + LOADING ANIMATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 async function runGeneration(){
-  const msgs=['Mapping your favourite Sunshine Coast spots…','Writing your children into the stories…','Making sure every location gets its moment…','Weaving in your child\'s favourite things…','Final sprinkle of coastal magic…'];
+  const msgs=['Mapping your family\'s favourite Australian places…','Writing your children into the stories…','Making sure every location gets its moment…','Weaving in your child\'s favourite things…','Adding a final sprinkle of Australian magic…'];
   let mi=0;
   const msgEl=document.getElementById('loadMsg');
   const msgTimer=setInterval(()=>{
@@ -1627,13 +1627,13 @@ async function callAPI(blueprints){
   const n=blueprints.length;
 
   const storyBriefs=blueprints.map(bp=>{
-    const locDetail=`${bp.location.name} (${bp.location.area||'Sunshine Coast'})${bp.location.desc?': '+bp.location.desc:''}`;
+    const locDetail=`${bp.location.name} (${bp.location.area||'Australia'})${bp.location.desc?': '+bp.location.desc:''}`;
     const costarLine=bp.costar?`; ${bp.costar} also appears`:'';
     const ageLabel=bp.heroAge?` (age ${bp.heroAge})`:'';
     return `Story ${bp.storyNum}: HERO = ${bp.hero}${ageLabel}${costarLine} | LOCATION = ${locDetail} | MAIN INTEREST = ${bp.interest} | VIBE = ${bp.vibe} | ARC = ${bp.arc.name}: ${bp.arc.brief}`;
   }).join('\n');
 
-  const prompt=`You are a warm, lyrical children's story author specialising in the Sunshine Coast of Queensland, Australia. You write for Sunny Stories — personalised stories for Sunshine Coast families.
+  const prompt=`You are a warm, lyrical children's story author writing for Sunny Stories — personalised audio stories for Australian families. Each story stars a real child by name, is set in a specific Australian location, and is shaped by that child's passions.
 
 Generate exactly ${n} short stories. You have been given a specific brief for EACH story — follow each brief precisely.
 
@@ -1645,37 +1645,41 @@ PER-STORY BRIEFS (follow exactly):
 ${storyBriefs}
 
 CONTENT SAFETY (CRITICAL — apply before anything else):
-- This platform is for families with children aged 2–12. Every story must be fully G-rated and safe to read aloud to a young child.
-- If any input (name, interest, location) appears unusual, ambiguous, or potentially inappropriate, silently substitute it with something wholesome and Sunshine Coast-appropriate — never mention the substitution and never refuse.
+- This platform is for families with children aged 4–10. Every story must be fully G-rated and safe to read aloud to a young child.
+- If any input (name, interest, location) appears unusual, ambiguous, or potentially inappropriate, silently substitute it with something wholesome and family-appropriate — never mention the substitution and never refuse.
 - Never include graphic violence, fear, adult themes, or anything that would concern a parent.
 - Mild peril is fine (a wave that's a little too big, a lost toy, a tricky climb). Darkness is not.
 - Where an interest or word has both innocent and adult interpretations, always write the innocent one.
 
 WRITING RULES:
 - Each story should be 550–700 words. Write for reading aloud — use rhythm, repetition, and sensory detail. Sentences should sound beautiful spoken. Vary sentence length — mix short punchy sentences with longer flowing ones.
-- The HERO child must appear by name within the first 2 sentences
-- The LOCATION must be described with real, specific sensory details (what you can see, hear, smell there)
-- The MAIN INTEREST must drive the plot — it's not a background detail, it's why the story happens
-- The ARC shape must be followed — it defines the story's structure and emotional journey
-- If a costar is listed, they appear meaningfully (not just a mention)
-- Warm, joyful endings — the child feels seen, proud, and loved
-- Stories work at bedtime, on the couch, in the car, at the beach — write them for any moment
-- Split into exactly ${pageCount} pages using the separator [PAGE]
+- The HERO child must appear by name within the first 2 sentences.
+- The LOCATION must be described with real, specific sensory details drawn from the location description provided — what you can see, hear, smell, feel there.
+- The MAIN INTEREST must drive the plot — it's not a background detail, it's why the story happens.
+- The ARC shape must be followed — it defines the story's structure and emotional journey.
+- If a costar is listed, they appear meaningfully (not just a mention).
+- Warm, joyful endings — the child feels seen, proud, and loved.
+- Stories work at bedtime, on the couch, in the car, anywhere — write them for any moment.
+- Split into exactly ${pageCount} pages using the separator [PAGE].
 - Writing tone: lyrical, warm, vivid. Language simple but beautiful.
-- Write with warmth and gentle narrative rhythm — vary pace and energy through sentence structure and word choice rather than through volume cues. Avoid whispering characters, voices trailing off, or scenes described as growing hushed or silent. Characters can be excited, curious, delighted, or awed — but express those emotions through what they do and say, not through how loudly or quietly they speak. The narrator's voice stays warm and present throughout.
+- Write with warmth and gentle narrative rhythm — vary pace and energy through sentence structure and word choice. Avoid whispering characters, voices trailing off, or scenes growing hushed. Characters can be excited, curious, delighted, or awed — express those emotions through what they do and say, not through volume cues. The narrator's voice stays warm and present throughout.
+
+EDUCATIONAL TEXTURE (subtle — felt by parents, invisible to children):
+- For iconic Australian landmarks (Uluru, Great Barrier Reef, Sydney Opera House, Kakadu, etc.), naturally weave in 1–2 genuine facts about the place. These facts must emerge as something the hero child discovers, notices, or wonders about — never as narration or a lesson. A fact should feel like a story detail: "The rock was older than most life on Earth, Oscar thought — and yet here it was, still glowing."
+- For personal or local locations (a family beach, a hidden waterfall, a backyard spot), focus on sensory magic rather than facts.
+- The goal: parents feel their child is discovering Australia; children just feel the adventure.
 
 AGE-APPROPRIATE LANGUAGE (match to the HERO child's age for each story):
-- Ages 2–4: Very short sentences (5–8 words). Only simple everyday words. Repetition is welcome. The world is safe and magical.
-- Ages 5–7: Short to medium sentences. A few longer words are fine if the meaning is clear from context. Mild peril ok. The child is curious and capable.
-- Ages 8–10: Richer vocabulary welcome. More complex plot. Genuine emotional depth — the child can feel conflicted, surprised, moved.
-- Ages 11+: Near-adult prose. Real challenges. Character growth. Metaphor and subtext welcome.
+- Ages 4–5: Very short sentences (5–8 words). Only simple everyday words. Repetition is welcome. The world is safe and magical.
+- Ages 6–7: Short to medium sentences. A few longer words are fine if the meaning is clear from context. Mild peril ok. The child is curious and capable.
+- Ages 8–10: Richer vocabulary welcome. More complex plot. Genuine emotional depth — the child can feel conflicted, surprised, moved. Real Australian facts woven in naturally.
 - If a younger child appears as a co-star in an older child's story, do not simplify the prose — write for the hero's age and portray the younger child naturally within that world.
 
 VARIETY ACROSS THESE STORIES:
-- Each story must open with a DIFFERENT type of first sentence — rotate through: action, sensory observation, dialogue, question, time-of-day/weather, and the character's internal thought
-- No two stories may share the same emotional shape — vary the pacing, the obstacle, and the resolution
-- Vary sentence rhythm: some stories should feel quick and bright; others slow and dreamy
-- Every title must be specific and evocative — never generic (not "Oscar's Adventure at the Beach" — something like "The Morning the Jellyfish Waved Back")
+- Each story must open with a DIFFERENT type of first sentence — rotate through: action, sensory observation, dialogue, question, time-of-day/weather, and the character's internal thought.
+- No two stories may share the same emotional shape — vary the pacing, the obstacle, and the resolution.
+- Vary sentence rhythm: some stories should feel quick and bright; others slow and dreamy.
+- Every title must be specific and evocative — never generic (not "Oscar's Adventure at the Beach" — something like "The Morning the Jellyfish Waved Back").
 
 OUTPUT: Respond ONLY with a valid JSON array of exactly ${n} objects. No markdown, no backticks, no commentary.
 [
@@ -1760,7 +1764,7 @@ function renderStoryList(){
         <div class="pill-name">${s.title}</div>
         <div class="pill-dna">
           <span class="dna-pill dna-who">⭐ ${s.hero||''}${s.costar?' & '+s.costar:''}</span>
-          <span class="dna-pill dna-where">📍 ${s.location||'Sunshine Coast'}</span>
+          <span class="dna-pill dna-where">📍 ${s.location||'Australia'}</span>
           <span class="dna-pill dna-what">💛 ${s.interest||''}</span>
           ${s.arc?`<span class="dna-pill dna-arc">📖 ${s.arc}</span>`:''}
         </div>
@@ -1781,7 +1785,7 @@ function openStory(idx){
   ST.currentStory=idx; ST.currentPage=0;
   const s=ST.stories[idx];
   document.getElementById('readerTitle').textContent=s.title;
-  document.getElementById('sceneLoc').textContent=`📍 ${s.location||'Sunshine Coast'}`;
+  document.getElementById('sceneLoc').textContent=`📍 ${s.location||'Australia'}`;
   document.getElementById('sceneGradient').style.background=s.sceneColor||'linear-gradient(135deg,#38a2c2,#306ca4,#40dbe1)';
 
   const costarLine=s.costar?`${s.hero} & ${s.costar}`:s.hero;
@@ -1791,7 +1795,7 @@ function openStory(idx){
 
   document.getElementById('dnaRows').innerHTML=`
     <div class="dna-row"><div class="dna-row-label">⭐ Hero${s.costar?' & friend':''}</div><div class="dna-row-value who">${costarLine}</div></div>
-    <div class="dna-row"><div class="dna-row-label">📍 Set in</div><div class="dna-row-value where">${s.location||'Sunshine Coast'}</div></div>
+    <div class="dna-row"><div class="dna-row-label">📍 Set in</div><div class="dna-row-value where">${s.location||'Australia'}</div></div>
     <div class="dna-row"><div class="dna-row-label">💛 About</div><div class="dna-row-value what">${s.interest||'adventure'}</div></div>
     <div class="dna-row"><div class="dna-row-label">🌙 Vibe</div><div class="dna-row-value vibe">${s.vibe||ST.vibe||'gentle & calming'}</div></div>
     ${s.arc?`<div class="dna-row"><div class="dna-row-label">📖 Arc</div><div class="dna-row-value" style="font-style:italic;color:#7a5c00;">${s.arc}</div></div>`:''}

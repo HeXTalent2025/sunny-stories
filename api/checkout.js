@@ -88,8 +88,8 @@ export default async function handler(req, res) {
     ? 'Sunny Stories — 1 Personalised Audio Story'
     : 'Sunny Stories — 10 Personalised Audio Stories';
   const productDesc = isSingle
-    ? `A personalised audio story for ${childNames}, set in their favourite Sunshine Coast spot — narrated in an Australian accent.`
-    : `10 personalised audio stories for ${childNames}, set in their favourite Sunshine Coast spots — narrated in an Australian accent.`;
+    ? `A personalised audio story for ${childNames}, set in their favourite Australian location — narrated in a warm Australian accent.`
+    : `10 personalised audio stories for ${childNames}, set in their favourite Australian locations — narrated in a warm Australian accent.`;
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
