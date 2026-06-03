@@ -1031,7 +1031,7 @@ function renderChildBlocks(){
       </div>
       <label class="f-label">${child.name}'s age</label>
       <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;">
-        ${[3,4,5,6,7].map(a=>`
+        ${[4,5,6,7,8,9,10].map(a=>`
           <button onclick="setChildAge('${child.name}',${a})"
             style="padding:8px 14px;border-radius:20px;border:1.5px solid ${child.age===a?'var(--ocean)':'rgba(56,162,194,.2)'};background:${child.age===a?'rgba(56,162,194,.12)':'var(--bg-soft)'};color:${child.age===a?'var(--ocean-deep)':'var(--text-soft)'};font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;">
             ${a}
