@@ -1,31 +1,24 @@
 {
   "functions": {
     "api/generate.js": { "maxDuration": 120 },
-    "api/narrate.js":  { "maxDuration": 60  },
-    "api/video.js":    { "maxDuration": 300 }
+    "api/narrate.js":  { "maxDuration": 60  }
   },
   "rewrites": [
-    { "source": "/api/generate", "destination": "/api/generate.js" },
-    { "source": "/api/checkout", "destination": "/api/checkout.js" },
-    { "source": "/api/session",  "destination": "/api/session.js"  },
-    { "source": "/api/save",     "destination": "/api/save.js"     },
-    { "source": "/api/stories",  "destination": "/api/stories.js"  },
-    { "source": "/api/illustrate",          "destination": "/api/illustrate.js"          },
-    { "source": "/api/narration-checkout",  "destination": "/api/narration-checkout.js"  },
-    { "source": "/api/narration-upgrade",   "destination": "/api/narration-upgrade.js"   },
-    { "source": "/api/narrate",        "destination": "/api/narrate.js"        },
-    { "source": "/api/video",          "destination": "/api/video.js"          },
-    { "source": "/api/video-checkout", "destination": "/api/video-checkout.js" },
-    { "source": "/api/video-session",  "destination": "/api/video-session.js"  },
-    { "source": "/app",          "destination": "/app.html"        },
-    { "source": "/stories",      "destination": "/stories.html"    },
-    { "source": "/legal",        "destination": "/legal.html"      },
-    { "source": "/gift",         "destination": "/gift.html"       },
-    { "source": "/give",         "destination": "/give.html"       },
-    { "source": "/logo.svg",     "destination": "/logo.svg"        },
-    { "source": "/og-image.svg", "destination": "/og-image.svg"    },
-    { "source": "/og-image.png", "destination": "/og-image.png"    },
-    { "source": "/favicon.ico",  "destination": "/favicon.ico"     },
-    { "source": "/(.*)",         "destination": "/index.html"      }
+    { "source": "/api/generate",  "destination": "/api/generate.js"  },
+    { "source": "/api/checkout",  "destination": "/api/checkout.js"  },
+    { "source": "/api/session",   "destination": "/api/session.js"   },
+    { "source": "/api/save",      "destination": "/api/save.js"      },
+    { "source": "/api/stories",   "destination": "/api/stories.js"   },
+    { "source": "/api/narrate",   "destination": "/api/narrate.js"   },
+    { "source": "/app",           "destination": "/app.html"         },
+    { "source": "/stories",       "destination": "/stories.html"     },
+    { "source": "/legal",         "destination": "/legal.html"       },
+    { "source": "/gift",          "destination": "/gift.html"        },
+    { "source": "/give",          "destination": "/give.html"        },
+    { "source": "/logo.svg",      "destination": "/logo.svg"         },
+    { "source": "/og-image.svg",  "destination": "/og-image.svg"     },
+    { "source": "/og-image.png",  "destination": "/og-image.png"     },
+    { "source": "/favicon.ico",   "destination": "/favicon.ico"      },
+    { "source": "/(.*)",          "destination": "/index.html"       }
   ]
 }

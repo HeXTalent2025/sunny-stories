@@ -322,7 +322,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
 .bundle-card-title{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ocean-deep);}
 .bundle-card-desc{font-size:12px;color:var(--text-soft);margin-top:2px;line-height:1.4;}
 .bundle-card-price{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--ocean-deep);white-space:nowrap;}
-.scene-illustration{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;opacity:0;transition:opacity .6s;}
 .price-num{font-family:'Fraunces',serif;font-size:56px;font-weight:700;color:var(--ocean-deep);line-height:1;}
 .price-num sup{font-size:24px;vertical-align:super;}
 .price-stories{color:var(--ocean);font-size:15px;font-weight:600;margin-top:6px;}
@@ -400,31 +399,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
 .slide-in-right{animation:slideInRight .25s ease forwards;}
 .slide-in-left{animation:slideInLeft .25s ease forwards;}
 
-/* ═══ VIDEO ELEMENT IN SCENE ═══ */
-#storyVideo{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:24px;}
-
-/* ═══ VIDEO UPSELL CARD ═══ */
-.video-upsell-card{background:#ffffff;border:1px solid rgba(56,162,194,.18);border-radius:22px;padding:22px;box-shadow:0 2px 16px rgba(56,162,194,.08);margin-bottom:14px;}
-.video-price-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px;}
-@media(max-width:380px){.video-price-cards{grid-template-columns:1fr;}}
-.video-price-card{background:#ffffff;border:2px solid rgba(56,162,194,.2);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
-.video-price-card:hover{border-color:var(--ocean);background:var(--bg-soft);}
-.video-price-card.recommended{background:var(--pastel-blue);border-color:var(--ocean);}
-.video-price-card.active-selection{border-color:var(--ocean);box-shadow:0 0 0 3px rgba(56,162,194,.18);}
-.video-price-title{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--ocean-deep);margin-bottom:4px;}
-.video-price-num{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--ocean-deep);line-height:1.1;}
-.video-price-sub{font-size:11px;color:var(--text-soft);margin-top:4px;line-height:1.4;}
-.best-value-badge{position:absolute;top:8px;right:-18px;background:var(--terracotta);color:#fff;font-size:9px;font-weight:700;padding:3px 22px;transform:rotate(35deg);letter-spacing:.5px;}
-
-/* ═══ STORY PILL VIDEO BADGE ═══ */
-.pill-video-badge{position:absolute;top:8px;right:38px;font-size:14px;line-height:1;}
-.story-pill.video-selectable{cursor:pointer;}
-.story-pill.video-selected{background:rgba(56,162,194,.1);border-color:var(--ocean);box-shadow:0 0 0 2px rgba(56,162,194,.18);}
-.story-pill.video-selected .pill-arrow::before{content:'✓';color:var(--ocean);}
-
-/* ═══ VIDEO STICKY BAR ═══ */
-#videoStickyBar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;box-shadow:0 -4px 24px rgba(56,162,194,.18);padding:14px 16px 20px;}
-
 /* ═══ PHOTO OPTION CARDS ═══ */
 .photo-option-card{background:var(--bg-soft);border:2px solid rgba(56,162,194,.18);border-radius:16px;padding:14px 12px;cursor:pointer;transition:all .2s;}
 .photo-option-card:hover{border-color:rgba(56,162,194,.4);}
@@ -434,8 +408,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
 .photo-option-sub{font-size:11px;color:var(--text-soft);line-height:1.4;}
 .photo-slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-/* ═══ WAITLIST MODAL ═══ */
-#waitlistModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(26,46,58,.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;}
 </style>
 </head>
 <body>
@@ -684,24 +656,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     </div>
   </div>
 
-  <!-- Video upsell card — shown after stories are generated -->
-  <div id="videoUpsellCard" class="video-upsell-card" style="display:none;">
-    <div class="panel-title">🎬 Bring the stories to life</div>
-    <p id="videoUpsellSub" style="font-size:13px;color:var(--text-soft);margin-bottom:16px;line-height:1.6;"></p>
-    <div class="video-price-cards" id="videoPriceCards"></div>
-    <p style="font-size:11px;color:var(--text-low);text-align:center;line-height:1.5;margin-top:4px;">Payments for animated videos coming soon — join the waitlist to be first.</p>
-  </div>
-
   <button class="btn btn-ghost" style="margin-top:8px" onclick="go('s-form')">✨ Create Another Collection</button>
-</div>
-
-<!-- Video selection sticky bar -->
-<div id="videoStickyBar">
-  <div style="max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;">
-    <div id="stickyBarCount" style="flex:1;font-size:14px;font-weight:600;color:var(--text-soft);">Select stories</div>
-    <button id="stickyBarBtn" class="btn btn-sun btn-sm" style="display:none;" onclick="confirmVideoSelection()">Animate →</button>
-    <button class="btn btn-ghost btn-sm" onclick="exitVideoSelectMode()">Cancel</button>
-  </div>
 </div>
 
 <!-- ═══════════ GIFT READY ═══════════ -->
@@ -740,7 +695,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     <div class="dna-promise" id="dnaPromise"></div>
   </div>
 
-  <!-- Scene area (static scene or video) -->
+  <!-- Scene area -->
   <div class="story-scene" id="storyScene">
     <div class="scene-gradient" id="sceneGradient"></div>
     <div class="scene-blob" style="width:200px;height:200px;--bd:7s;--bdelay:0s;top:-60px;right:-40px;background:var(--ocean)"></div>
@@ -748,8 +703,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     <div class="scene-blob" style="width:100px;height:100px;--bd:8s;--bdelay:1s;top:40%;left:40%;background:var(--terracotta)"></div>
     <div class="scene-icon" id="sceneIcon">🌊</div>
     <div class="scene-loc-badge" id="sceneLoc">📍 Sunshine Coast</div>
-    <video id="storyVideo" muted playsinline></video>
-    <img id="sceneIllustration" class="scene-illustration" alt="">
   </div>
 
   <!-- ElevenLabs audio bar -->
@@ -791,76 +744,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
   </div>
 </div>
 
-<!-- ═══════════ VIDEO SETUP ═══════════ -->
-<div id="s-video-setup" class="screen hidden">
-  <div class="reader-top">
-    <button class="back-link" onclick="go('s-list')">← Back</button>
-    <div class="reader-title-sm">Animate the Story</div>
-    <div style="width:56px"></div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title" id="photoStepTitle">How should we picture them?</div>
-    <p style="font-size:13px;color:var(--text-soft);margin-bottom:16px;line-height:1.6;">We'll use this to animate them through their story.</p>
-    <div id="photoSlots"></div>
-    <p style="font-size:11px;color:var(--text-low);margin-top:12px;line-height:1.5;">🔒 Photos are used only to generate your video and are never stored or shared.</p>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Confirm your animation</div>
-    <div style="background:var(--bg-soft);border:1px solid rgba(56,162,194,.15);border-radius:14px;padding:14px;margin-bottom:16px;">
-      <div style="font-size:10px;font-weight:700;color:var(--text-low);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Stories</div>
-      <div id="videoSummaryStories" style="font-size:13px;color:var(--text-dark);line-height:1.6;margin-bottom:10px;"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid rgba(56,162,194,.1);">
-        <div style="font-size:12px;color:var(--text-soft);">Total</div>
-        <div id="videoSummaryPrice" style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--ocean-deep);"></div>
-      </div>
-    </div>
-    <button id="videoConfirmBtn" class="btn btn-sun" onclick="confirmVideoConversion()">Generate animated video — $0</button>
-  </div>
-</div>
-
-<!-- ═══════════ VIDEO LOADING ═══════════ -->
-<div id="s-video-loading" class="screen hidden">
-  <div class="loading-wrap">
-    <span class="loading-star">🎬</span>
-    <div class="loading-title" id="videoLoadTitle">Animating the story…</div>
-    <div class="loading-msg" id="videoLoadMsg">Creating your animated world…</div>
-    <div class="loading-steps" id="videoLoadSteps">
-      <div class="step" id="vstep0"><div class="step-dot"></div><span id="vstep0txt">Creating character…</span></div>
-      <div class="step" id="vstep1"><div class="step-dot"></div><span id="vstep1txt">Setting the scene…</span></div>
-      <div class="step" id="vstep2"><div class="step-dot"></div>Bringing page 1 to life…</div>
-      <div class="step" id="vstep3"><div class="step-dot"></div>Bringing page 2 to life…</div>
-      <div class="step" id="vstep4"><div class="step-dot"></div>Bringing page 3 to life…</div>
-      <div class="step" id="vstep5"><div class="step-dot"></div>Finishing touches…</div>
-    </div>
-    <div class="loading-bar-wrap"><div class="loading-bar" id="videoLoadBar" style="width:0%"></div></div>
-    <div style="margin-top:20px;background:#ffffff;border:1px solid rgba(56,162,194,.15);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(56,162,194,.07);">
-      <div style="font-size:13px;color:var(--text-soft);">⏱ Time elapsed</div>
-      <div id="videoElapsedTimer" style="font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--ocean-deep);">0:00</div>
-    </div>
-    <p style="font-size:12px;color:var(--text-soft);text-align:center;margin-top:12px;line-height:1.6;">Animating a story takes around 60–90 seconds.<br>Please keep this page open ✨</p>
-    <div id="videoGenError" style="display:none;margin-top:18px;background:#fff8f7;border:1px solid rgba(216,110,89,.25);border-radius:14px;padding:18px 20px;text-align:center;">
-      <div style="font-size:15px;font-weight:700;color:#c0412c;margin-bottom:6px;">Something went sideways</div>
-      <div id="videoGenErrorMsg" style="font-size:13px;color:var(--text-soft);margin-bottom:14px;line-height:1.6;"></div>
-      <button onclick="go('s-list')" style="background:var(--ocean);color:#fff;border:none;border-radius:8px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;">← Back to stories</button>
-    </div>
-  </div>
-</div>
 
 </div><!-- /app -->
-
-<!-- ═══════════ WAITLIST MODAL ═══════════ -->
-<div id="waitlistModal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(26,46,58,.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;">
-  <div style="background:white;border-radius:24px;padding:28px;max-width:400px;width:100%;box-shadow:0 20px 80px rgba(48,108,164,.25);">
-    <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;color:var(--ocean-deep);margin-bottom:10px;">Almost there — payments coming soon</div>
-    <div style="font-size:13px;color:var(--text-soft);line-height:1.7;margin-bottom:18px;">We're setting up secure payments for animated videos. Drop your email below and you'll be the first to know when it's live — we'll even save your story selection.</div>
-    <input class="f-input" id="waitlistEmail" type="email" placeholder="your@email.com" style="margin-bottom:10px;">
-    <button class="btn btn-sun" onclick="submitWaitlist()">Notify me</button>
-    <div id="waitlistConfirm" style="display:none;text-align:center;padding:12px 0 4px;font-size:14px;font-weight:600;color:var(--ocean-deep);">You're on the list ✨ We'll be in touch soon.</div>
-    <button onclick="closeWaitlistModal()" style="display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--text-soft);font-size:13px;cursor:pointer;padding:8px;">Cancel</button>
-  </div>
-</div>
 
 <script>
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -898,11 +783,7 @@ const ST = {
   audioCache: {},
   audioDuration: {},     // server-calculated durations keyed by story index
   audioAlignment: {},    // word-level timing arrays keyed by story index
-  illustrationCache: {},
   pageDir: 0,
-  childPhotos: {},
-  childDescriptions: {},
-  pendingVideoStories: [],
 };
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -974,7 +855,7 @@ function go(screen){
   document.getElementById(screen).classList.remove('hidden');
   window.scrollTo({top:0,behavior:'smooth'});
   if(screen==='s-explorer') renderExplorer();
-  if(screen==='s-list'){ renderStoryList(); hideVideoStickyBar(); }
+  if(screen==='s-list'){ renderStoryList(); }
   if(screen==='s-form') updateBlueprintPreview();
 }
 function returnFromExplorer(){ updateFormLocations(); go('s-form'); }
@@ -1737,12 +1618,7 @@ OUTPUT: Respond ONLY with a valid JSON array of exactly ${n} objects. No markdow
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    STORY LIST
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-let videoSelectMode = null;
-let videoSelectedStories = new Set();
-let videoPendingPrice = 0;
-
 function renderStoryList(){
-  const names=ST.children.map(c=>c.name).join(' & ')||'Your family';
   document.getElementById('storiesSub').textContent=`Your family's audio story collection`;
   if(!ST.stories.length){
     document.getElementById('storyList').innerHTML=`
@@ -1752,21 +1628,13 @@ function renderStoryList(){
         <div style="font-size:13px;line-height:1.7">Create your first personalised story collection — pick your locations, tell us about your family, and let the magic happen.</div>
         <button class="btn btn-sun" style="margin-top:20px;max-width:260px;margin:20px auto 0;display:block" onclick="go('s-form')">✨ Create Stories</button>
       </div>`;
-    document.getElementById('videoUpsellCard').style.display='none';
     return;
   }
   const _cachedSet=new Set(Object.keys(ST.audioCache).map(Number));
   document.getElementById('storyList').innerHTML=ST.stories.map((s,i)=>{
-    const inSelectMode = videoSelectMode !== null;
-    const isSelected = videoSelectedStories.has(i);
-    const hasVideo = !!s.videoUrls;
-    const pillClass = inSelectMode
-      ? (isSelected ? 'story-pill video-selected' : 'story-pill video-selectable')
-      : 'story-pill';
-    const clickFn = inSelectMode ? `toggleVideoStorySelect(${i})` : `openStory(${i})`;
     return `
-    <div class="${pillClass}" data-story="${i}" onclick="${clickFn}" style="animation-delay:${i*.05}s">
-      <div class="pill-emoji">${s.emoji||'🌙'}${hasVideo?'<span style="position:absolute;top:8px;right:38px;font-size:13px;">🎬</span>':''}</div>
+    <div class="story-pill" data-story="${i}" onclick="openStory(${i})" style="animation-delay:${i*.05}s">
+      <div class="pill-emoji">${s.emoji||'🌙'}</div>
       <div class="pill-body">
         <div class="pill-num" style="display:flex;align-items:center;gap:6px;">
           <span>Story ${i+1} of ${ST.stories.length}</span>
@@ -1780,118 +1648,14 @@ function renderStoryList(){
           ${s.arc?`<span class="dna-pill dna-arc">📖 ${s.arc}</span>`:''}
         </div>
       </div>
-      <div class="pill-arrow">${inSelectMode&&isSelected?'✓':'›'}</div>
+      <div class="pill-arrow">›</div>
     </div>`;
   }).join('');
   // Show Download All button whenever there are stories
   const dlWrap = document.getElementById('dlAllWrap');
-  if(dlWrap) dlWrap.style.display = (ST.stories.length > 1) ? 'block' : 'none';
-  renderVideoUpsell();
+  if(dlWrap) dlWrap.style.display = ST.stories.length ? 'block' : 'none';
 }
 
-function renderVideoUpsell(){
-  const card = document.getElementById('videoUpsellCard');
-  card.style.display='none'; return;
-  const allHaveVideo = ST.stories.every(s=>s.videoUrls);
-  if(allHaveVideo){ card.style.display='none'; return; }
-
-  const heroName = ST.children.length===1 ? ST.children[0].name : 'your family';
-  const p1 = 8, p3 = 20, p10 = 45;
-
-  document.getElementById('videoUpsellSub').textContent =
-    `Watch ${heroName} animated through their favourite Sunshine Coast spots, narrated in an Australian accent. Pick one to try, or animate the whole collection.`;
-
-  document.getElementById('videoPriceCards').innerHTML=`
-    <div class="video-price-card" onclick="selectVideoPackage(1,${p1})">
-      <div class="video-price-title">1 story</div>
-      <div class="video-price-num">$${p1}</div>
-      <div class="video-price-sub">Pick any story to animate</div>
-    </div>
-    <div class="video-price-card" onclick="selectVideoPackage(3,${p3})">
-      <div class="video-price-title">3 stories</div>
-      <div class="video-price-num">$${p3}</div>
-      <div class="video-price-sub">Choose your three favourites</div>
-    </div>
-    <div class="video-price-card recommended" onclick="selectVideoPackage(10,${p10})">
-      <span class="best-value-badge">Best value</span>
-      <div class="video-price-title">All 10 stories</div>
-      <div class="video-price-num">$${p10}</div>
-      <div class="video-price-sub">The full animated collection</div>
-    </div>`;
-
-  card.style.display='block';
-}
-
-function selectVideoPackage(count, price){
-  videoPendingPrice = price;
-  if(count===10){
-    startVideoConversion(ST.stories.map((_,i)=>i));
-  } else {
-    enterVideoSelectMode(count, price);
-  }
-}
-
-function enterVideoSelectMode(count, price){
-  videoSelectMode = count;
-  videoSelectedStories.clear();
-  videoPendingPrice = price;
-  renderStoryList();
-  document.getElementById('videoStickyBar').style.display='block';
-  updateVideoStickyBar();
-}
-
-function exitVideoSelectMode(){
-  videoSelectMode = null;
-  videoSelectedStories.clear();
-  renderStoryList();
-  hideVideoStickyBar();
-}
-
-function hideVideoStickyBar(){
-  videoSelectMode = null;
-  videoSelectedStories.clear();
-  const bar = document.getElementById('videoStickyBar');
-  if(bar) bar.style.display='none';
-}
-
-function toggleVideoStorySelect(idx){
-  if(videoSelectedStories.has(idx)){
-    videoSelectedStories.delete(idx);
-  } else if(videoSelectedStories.size < videoSelectMode){
-    videoSelectedStories.add(idx);
-  }
-  renderStoryList();
-  updateVideoStickyBar();
-}
-
-function updateVideoStickyBar(){
-  const remaining = videoSelectMode - videoSelectedStories.size;
-  const countEl = document.getElementById('stickyBarCount');
-  const btnEl = document.getElementById('stickyBarBtn');
-  if(remaining > 0){
-    countEl.textContent = `Select ${remaining} more stor${remaining>1?'ies':'y'}`;
-    btnEl.style.display='none';
-  } else {
-    countEl.textContent = `${videoSelectMode} ${videoSelectMode>1?'stories':'story'} selected`;
-    btnEl.style.display='inline-block';
-    if(videoSelectMode===1){
-      const idx=[...videoSelectedStories][0];
-      const title=ST.stories[idx]?.title||'Story';
-      btnEl.textContent=`Animate "${title.length>22?title.slice(0,22)+'…':title}" →`;
-    } else {
-      btnEl.textContent=`Animate ${videoSelectMode} stories →`;
-    }
-  }
-}
-
-function confirmVideoSelection(){
-  if(videoSelectedStories.size===videoSelectMode){
-    const indices=[...videoSelectedStories];
-    videoSelectMode=null;
-    hideVideoStickyBar();
-    startVideoConversion(indices);
-  }
-}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    READER
@@ -1962,28 +1726,12 @@ function renderPage(){
   const icons=[s.emoji||'🌊','🌊','⭐','🌿','☀️'];
   const iconEl=document.getElementById('sceneIcon');
   const gradEl=document.getElementById('sceneGradient');
-  const vid=document.getElementById('storyVideo');
   const blobs=document.querySelectorAll('.scene-blob');
 
-  const illEl=document.getElementById('sceneIllustration');
-
-  if(s.videoUrls && p<total){
-    vid.style.display='block';
-    if(illEl){illEl.style.display='none';illEl.style.opacity='0';}
-    iconEl.style.display='none';
-    gradEl.style.display='none';
-    blobs.forEach(b=>b.style.display='none');
-    vid.src=s.videoUrls[p]||'';
-    vid.load();
-    vid.play().catch(()=>{});
-  } else {
-    vid.style.display='none';
-    if(illEl){illEl.style.display='none';illEl.style.opacity='0';}
-    iconEl.style.display='flex';
-    gradEl.style.display='block';
-    blobs.forEach(b=>b.style.display='block');
-    if(p<total) iconEl.textContent=icons[p%icons.length];
-  }
+  iconEl.style.display='flex';
+  gradEl.style.display='block';
+  blobs.forEach(b=>b.style.display='block');
+  if(p<total) iconEl.textContent=icons[p%icons.length];
 
   panel.classList.remove('slide-in-right','slide-in-left');
   void panel.offsetWidth;
@@ -1991,27 +1739,11 @@ function renderPage(){
   setTimeout(()=>{
     if(p>=total){
       // "The End" screen
-      const price=8;
       const hero=s.hero||'little one';
-      const loc=s.location||'the Sunshine Coast';
-      const allAnimated=ST.stories.length>1&&ST.stories.every(st=>st.videoUrls);
-
-      let primaryCta;
-      if(s.videoUrls){
-        if(allAnimated){
-          primaryCta=`<button class="btn btn-sun" onclick="watchAllAnimated()" style="max-width:300px;margin:0 auto 10px;display:block">🎬 Watch all animated stories →</button>`;
-        } else {
-          primaryCta=`<button class="btn btn-sun" onclick="openStory(${ST.currentStory})" style="max-width:300px;margin:0 auto 10px;display:block">▶ Watch the animated version</button>`;
-        }
-      } else {
-        primaryCta=`<button class="btn btn-sun" onclick="startVideoConversion([${ST.currentStory}])" style="max-width:300px;margin:0 auto 10px;display:block">🎬 Bring this story to life — $${price}<br><span style="font-size:12px;font-weight:400;opacity:.85;">Watch ${hero} animated through ${loc}, narrated in an Australian accent.</span></button>`;
-      }
-
       panel.innerHTML=`<div class="the-end-wrap">
         <span class="the-end-icon">✨</span>
         <div class="the-end-title">The End</div>
         <div class="the-end-sub">Well done, ${hero}.<br>Another adventure awaits whenever you're ready.</div>
-        ${primaryCta}
         <button class="btn btn-ghost" onclick="go('s-list')" style="max-width:260px;margin:0 auto;display:block">← Back to all stories</button>
       </div>`;
       AUDIO.autoAdvancing=false;
@@ -2028,10 +1760,6 @@ function renderPage(){
     }
     panel.style.opacity=1;
   },200);
-}
-
-function watchAllAnimated(){
-  go('s-list');
 }
 
 function fmtText(text,s){
@@ -2115,52 +1843,10 @@ function wrapWords(html, startIdx=0){
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const AUDIO={playing:false,autoAdvancing:false,rate:1.0,audioEl:null,hasAudio:false,alignment:null,_lastWi:-1};
 
-async function generateIllustration(storyIdx){
-  const story=ST.stories[storyIdx];
-  if(!story)return;
-  try{
-    const res=await fetch('/api/illustrate',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        location:story.location,
-        interest:story.interest,
-        vibe:story.vibe||ST.vibe||'gentle and sleepy',
-      }),
-    });
-    const data=await res.json();
-    if(!data.imageUrl)return;
-    ST.illustrationCache[storyIdx]=data.imageUrl;
-    // Show immediately if still reading this story
-    if(ST.currentStory===storyIdx){
-      const illEl=document.getElementById('sceneIllustration');
-      const iconEl=document.getElementById('sceneIcon');
-      const gradEl=document.getElementById('sceneGradient');
-      const blobs=document.querySelectorAll('.scene-blob');
-      if(illEl){
-        illEl.src=data.imageUrl;
-        illEl.style.display='block';
-        setTimeout(()=>{
-          illEl.style.opacity='1';
-          iconEl.style.display='none';
-          gradEl.style.display='none';
-          blobs.forEach(b=>b.style.display='none');
-        },50);
-      }
-    }
-  }catch(e){
-    console.error('Illustration error:',e);
-  }
-}
-
 function renderScrollingReader(s){
   const iconEl=document.getElementById('sceneIcon');
   const gradEl=document.getElementById('sceneGradient');
   const blobs=document.querySelectorAll('.scene-blob');
-  const vid=document.getElementById('storyVideo');
-  const illEl=document.getElementById('sceneIllustration');
-  vid.style.display='none';
-  if(illEl){illEl.style.display='none';illEl.style.opacity='0';}
   iconEl.style.display='flex';
   iconEl.textContent=s.emoji||'🌊';
   gradEl.style.display='block';
@@ -2589,220 +2275,6 @@ function setAudioSpeed(btn){
   if(AUDIO.audioEl)AUDIO.audioEl.playbackRate=AUDIO.rate;
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   VIDEO CONVERSION FLOW
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-function getVideoPrice(count){
-  if(count>=10)return 45;
-  if(count>=3)return 20;
-  return 8;
-}
-
-function startVideoConversion(storyIndices){
-  ST.pendingVideoStories=storyIndices;
-  ST.childPhotos={};
-  ST.childDescriptions={};
-  go('s-video-setup');
-  renderVideoSetup();
-}
-
-function renderVideoSetup(){
-  const indices=ST.pendingVideoStories||[];
-  const heroes=[...new Set(indices.map(i=>ST.stories[i]?.hero).filter(Boolean))];
-
-  document.getElementById('photoStepTitle').textContent=
-    heroes.length===1?`How should we picture ${heroes[0]}?`:'How should we picture them?';
-
-  document.getElementById('photoSlots').innerHTML=heroes.map((name,idx)=>`
-    <div style="margin-bottom:18px;">
-      <div style="font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ocean-deep);margin-bottom:10px;">⭐ ${name}</div>
-      <div class="photo-slots-grid">
-        <div class="photo-option-card" id="photo-card-${idx}">
-          <div class="photo-option-icon">📷</div>
-          <div class="photo-option-label">Upload a photo</div>
-          <div class="photo-option-sub">A clear photo of ${name}'s face gives the best result.</div>
-          <div id="thumb-wrap-${idx}" style="display:none;margin-top:8px;">
-            <img id="thumb-${idx}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;" src="" alt="${name}">
-            <div style="font-size:11px;color:var(--ocean-deep);margin-top:4px;font-weight:600;">${name} ✓</div>
-          </div>
-          <button onclick="document.getElementById('photo-input-${idx}').click()" style="margin-top:8px;background:none;border:1.5px solid rgba(56,162,194,.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--ocean-deep);cursor:pointer;">Choose photo</button>
-          <input type="file" id="photo-input-${idx}" accept=".jpg,.jpeg,.png,.webp" style="display:none;" data-name="${name}" onchange="handlePhotoUpload(${idx},this)">
-        </div>
-        <div class="photo-option-card" id="desc-card-${idx}">
-          <div class="photo-option-icon">✏️</div>
-          <div class="photo-option-label">Describe ${name}</div>
-          <div class="photo-option-sub">No photo? Tell us what they look like.</div>
-          <textarea class="f-textarea" style="margin-top:8px;margin-bottom:0;font-size:12px;min-height:64px;"
-            placeholder="e.g. curly red hair, freckles, loves wearing her purple hat"
-            data-name="${name}" oninput="updateChildDesc(this)"></textarea>
-        </div>
-      </div>
-    </div>`).join('');
-
-  const price=getVideoPrice(indices.length);
-  const count=indices.length;
-  const titles=indices.map(i=>ST.stories[i]?.title||`Story ${i+1}`).join(', ');
-
-  document.getElementById('videoConfirmBtn').textContent=
-    `Generate animated video${count>1?'s':''} — $${price}`;
-  document.getElementById('videoSummaryPrice').textContent=`$${price}`;
-  document.getElementById('videoSummaryStories').textContent=titles;
-}
-
-function updateChildDesc(el){
-  ST.childDescriptions[el.dataset.name]=el.value.trim();
-  const idx=el.closest('[id^="desc-card-"]')?.id.replace('desc-card-','');
-  if(idx!==undefined) document.getElementById(`desc-card-${idx}`)?.classList.add('selected');
-}
-
-function handlePhotoUpload(heroIdx, input){
-  const file=input.files[0];
-  if(!file)return;
-  if(file.size>5*1024*1024){
-    alert('Photo must be under 5MB — please choose a smaller image.');
-    input.value='';return;
-  }
-  const name=input.dataset.name;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    ST.childPhotos[name]={base64:e.target.result.split(',')[1],mimeType:file.type};
-    const thumb=document.getElementById(`thumb-${heroIdx}`);
-    const wrap=document.getElementById(`thumb-wrap-${heroIdx}`);
-    if(thumb)thumb.src=e.target.result;
-    if(wrap)wrap.style.display='block';
-    document.getElementById(`photo-card-${heroIdx}`)?.classList.add('selected');
-  };
-  reader.readAsDataURL(file);
-}
-
-function confirmVideoConversion(){
-  showWaitlistModal();
-}
-
-
-function showWaitlistModal(){
-  const modal=document.getElementById('waitlistModal');
-  modal.style.display='flex';
-  document.getElementById('waitlistConfirm').style.display='none';
-  document.getElementById('waitlistEmail').value='';
-}
-
-function closeWaitlistModal(){
-  document.getElementById('waitlistModal').style.display='none';
-}
-
-function submitWaitlist(){
-  const email=document.getElementById('waitlistEmail').value.trim();
-  if(!email||!email.includes('@')){alert('Please enter a valid email address.');return;}
-  const entry={
-    email,
-    storyIndices:ST.pendingVideoStories,
-    storyLength:'5min',
-    totalPrice:getVideoPrice(ST.pendingVideoStories.length),
-    timestamp:Date.now(),
-  };
-  const list=JSON.parse(localStorage.getItem('sst_video_waitlist')||'[]');
-  list.push(entry);
-  localStorage.setItem('sst_video_waitlist',JSON.stringify(list));
-  document.getElementById('waitlistConfirm').style.display='block';
-  setTimeout(()=>closeWaitlistModal(),3000);
-}
-
-let videoElapsedInterval=null;
-
-async function generateVideos(){
-  go('s-video-loading');
-  document.getElementById('videoGenError').style.display='none';
-  document.getElementById('videoLoadBar').style.width='0%';
-
-  const start=Date.now();
-  if(videoElapsedInterval)clearInterval(videoElapsedInterval);
-  videoElapsedInterval=setInterval(()=>{
-    const secs=Math.floor((Date.now()-start)/1000);
-    const el=document.getElementById('videoElapsedTimer');
-    if(el)el.textContent=`${Math.floor(secs/60)}:${(secs%60).toString().padStart(2,'0')}`;
-  },1000);
-
-  const indices=ST.pendingVideoStories||[];
-  const total=indices.length;
-
-  for(let n=0;n<total;n++){
-    const storyIdx=indices[n];
-    const story=ST.stories[storyIdx];
-    if(!story)continue;
-
-    const titleEl=document.getElementById('videoLoadTitle');
-    if(titleEl)titleEl.textContent=total>1?`Animating story ${n+1} of ${total}…`:`Animating ${story.hero}'s story…`;
-
-    // Reset steps
-    for(let v=0;v<6;v++){
-      const el=document.getElementById(`vstep${v}`);
-      if(el)el.className='step';
-    }
-    const s0=document.getElementById('vstep0txt');
-    const s1=document.getElementById('vstep1txt');
-    if(s0)s0.textContent=`Creating ${story.hero}…`;
-    if(s1)s1.textContent=`Setting the scene at ${story.location}…`;
-
-    let vStep=0;
-    const advVStep=()=>{
-      if(vStep>0){const p=document.getElementById(`vstep${vStep-1}`);if(p){p.classList.remove('active');p.classList.add('done');}}
-      const c=document.getElementById(`vstep${vStep}`);if(c)c.classList.add('active');
-      vStep++;
-    };
-    advVStep();
-    const stepTimer=setInterval(()=>{if(vStep<6)advVStep();},18000);
-
-    document.getElementById('videoLoadBar').style.width=`${Math.round((n/total)*85)}%`;
-
-    const bp=ST.blueprints[storyIdx]||{};
-    const heroChild=ST.children.find(c=>c.name===story.hero)||{};
-
-    try{
-      const res=await fetch('/api/video',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          storyIndex:storyIdx,
-          hero:story.hero,
-          costar:story.costar||null,
-          location:story.location,
-          locationDesc:bp.location?.desc||'',
-          interest:story.interest,
-          pages:story.pages,
-          storyLength:'5min',
-          childPhotos:Object.keys(ST.childPhotos).length?ST.childPhotos:null,
-          childDescriptions:Object.keys(ST.childDescriptions).length?ST.childDescriptions:null,
-          childAge:heroChild.age||null,
-          childInterests:heroChild.interests||[],
-        }),
-      });
-      clearInterval(stepTimer);
-      const data=await res.json();
-      if(data.error)throw new Error(data.error);
-      ST.stories[storyIdx].videoUrls=data.videoUrls;
-      ST.stories[storyIdx].characterImageUrl=data.characterImageUrl;
-    }catch(e){
-      clearInterval(stepTimer);
-      clearInterval(videoElapsedInterval);
-      const errMsg=document.getElementById('videoGenErrorMsg');
-      if(errMsg)errMsg.textContent=`Error: ${e.message||'Unknown error'}`;
-      const errDiv=document.getElementById('videoGenError');
-      if(errDiv)errDiv.style.display='block';
-      return;
-    }
-  }
-
-  clearInterval(videoElapsedInterval);
-  document.getElementById('videoLoadBar').style.width='100%';
-  await new Promise(r=>setTimeout(r,600));
-
-  if(total===1){
-    openStory(indices[0]);
-  } else {
-    go('s-list');
-  }
-}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    PAYMENT + MAGIC LINK FLOW
@@ -2944,45 +2416,8 @@ renderChildBlocks();
 
   if(token) loadFromToken(token);
   else if(session) handlePaymentReturn(session);
-  else if(p.get('videosession')) handleVideoPaymentReturn(p.get('videosession'));
   // else: s-form is the default visible screen
 })();
-
-async function handleVideoPaymentReturn(sessionId){
-  go('s-loading');
-  document.getElementById('loadMsg').textContent='Payment confirmed — loading your stories…';
-  try{
-    const res=await fetch(`/api/video-session?id=${sessionId}`);
-    if(!res.ok){
-      const err=await res.json();
-      alert(err.error||'Something went wrong — please contact stories@sunnystories.co');
-      go('s-form');
-      return;
-    }
-    const {videoData}=await res.json();
-    // Restore stories from token
-    const storiesRes=await fetch(`/api/stories?token=${videoData.storyToken}`);
-    if(!storiesRes.ok){alert('Could not load your stories — please contact stories@sunnystories.co');go('s-form');return;}
-    const {stories}=await storiesRes.json();
-    ST.stories=stories;
-    ST.storyToken=videoData.storyToken;
-    ST.pendingVideoStories=videoData.pendingVideoStories||[];
-    // Restore photos/descs from localStorage (survive Stripe redirect)
-    ST.childPhotos=JSON.parse(localStorage.getItem('sst_video_photos')||'{}');
-    ST.childDescriptions=JSON.parse(localStorage.getItem('sst_video_descs')||'{}');
-    localStorage.removeItem('sst_video_photos');
-    localStorage.removeItem('sst_video_descs');
-    localStorage.removeItem('sst_video_pending');
-    localStorage.removeItem('sst_video_length');
-    renderStoryList();
-    // Go straight to video generation
-    await generateVideos();
-  }catch(e){
-    console.error('Video payment return error:',e);
-    alert('Something went wrong. Please contact stories@sunnystories.co');
-    go('s-form');
-  }
-}
 
 function showGiftMode(){
   document.getElementById('giftBanner').style.display='flex';
