@@ -97,7 +97,7 @@ export default async function handler(req, res) {
       price_data: {
         currency: 'aud',
         product_data: { name: productName, description: productDesc },
-        unit_amount: isSingle ? 499 : 2500,
+        unit_amount: isSingle ? 299 : 2500,
       },
       quantity: 1,
     }],
