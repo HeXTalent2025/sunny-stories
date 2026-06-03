@@ -8,6 +8,44 @@ const redis = new Redis({ url: process.env.KV_REST_API_URL, token: process.env.K
 
 export const config = { maxDuration: 300 };
 
+// Curated Australian landmark discovery pool — used once family's chosen
+// locations are exhausted, keeping the passport growing week after week.
+// Ordered roughly by iconic status so the most famous locations come first.
+const AUSTRALIAN_LANDMARKS = [
+  { name:'Uluru', area:'Red Centre, NT', emoji:'🪨', desc:'Uluru rises 348 metres from the flat red desert, glowing brilliant orange at sunrise. Sacred to the Anangu people and more than 500 million years old.' },
+  { name:'Great Barrier Reef', area:'Tropical QLD', emoji:'🐠', desc:'The world\'s largest coral reef system stretches 2,300km along Queensland\'s coast. Glass-bottomed boats reveal staghorn coral, sea turtles and thousands of tropical fish.' },
+  { name:'Sydney Opera House', area:'Sydney, NSW', emoji:'🎭', desc:'The iconic sail-roofed building sits on Bennelong Point with more than one million ceramic tiles covering its shells. On the forecourt, buskers perform beside the sparkling harbour.' },
+  { name:'Blue Mountains', area:'Katoomba, NSW', emoji:'🏔️', desc:'The Three Sisters rock formation rises from an ancient valley of eucalyptus forest that turns hazy blue from oil droplets in the air. The Scenic Railway plunges 545 metres into the rainforest below.' },
+  { name:'Great Ocean Road', area:'Southwest VIC', emoji:'🌊', desc:'The Twelve Apostles limestone stacks rise from the Southern Ocean surf. Wild koalas cling to trees at Kennett River, and Gibson Steps puts visitors right at the base of the cliffs.' },
+  { name:'Kakadu National Park', area:'Top End, NT', emoji:'🐊', desc:'Australia\'s largest national park has Aboriginal rock art sites up to 20,000 years old still painted vividly on sandstone cliffs. The Yellow Water Billabong glides past saltwater crocodiles.' },
+  { name:'Phillip Island', area:'Phillip Island, VIC', emoji:'🐧', desc:'Every evening at dusk, hundreds of little penguins waddle ashore from Bass Strait to their burrows — the world\'s smallest penguins marching past in a ritual millions of years old.' },
+  { name:'Bondi Beach', area:'Sydney, NSW', emoji:'🏄', desc:'A crescent of golden sand one kilometre long where surfers ride waves from New Zealand. The coastal walk to Coogee follows clifftops past blowholes and sea caves where spray shoots through the rock.' },
+  { name:'Daintree Rainforest', area:'Far North QLD', emoji:'🌿', desc:'The oldest surviving tropical rainforest on Earth — over 180 million years old — meets the Great Barrier Reef at Cape Tribulation. Cassowaries stride through the undergrowth and Boyd\'s forest dragons cling to tree trunks.' },
+  { name:'Kangaroo Island', area:'SA', emoji:'🦁', desc:'Australia\'s third-largest island has no foxes or rabbits — just a dense population of koalas, wallabies, echidnas and sea lions. Seal Bay allows visitors to walk among a wild Australian sea lion colony.' },
+  { name:'Rottnest Island', area:'Perth, WA', emoji:'🐾', desc:'A car-free island 19km off Fremantle, home to the quokka — small wallabies so approachable they almost seem to smile. Snorkelling off The Basin reveals one of WA\'s best coral gardens.' },
+  { name:'Cradle Mountain', area:'Central TAS', emoji:'🏔️', desc:'The jagged dolerite peak rises from ancient alpine moorland. Wombats graze on the lawns at Dove Lake at dusk, completely unafraid of people. The pencil pine forest is found nowhere else on Earth.' },
+  { name:'Whitsunday Islands', area:'QLD', emoji:'⛵', desc:'74 tropical islands in the heart of the Great Barrier Reef Marine Park. Whitehaven Beach has swirling white silica sand so pure it stays cool even in summer heat.' },
+  { name:'Katherine Gorge', area:'Nitmiluk, NT', emoji:'🌊', desc:'Thirteen sandstone gorges carved by the Katherine River glow deep ochre in afternoon light. Visitors canoe between towering walls and swim in jade-green pools where freshwater crocodiles bask nearby.' },
+  { name:'Taronga Zoo', area:'Sydney, NSW', emoji:'🦒', desc:'Perched on Sydney Harbour\'s north shore, Taronga\'s animals look out over the Opera House and Harbour Bridge. Giraffes graze with the city skyline behind them.' },
+  { name:'Healesville Sanctuary', area:'Yarra Valley, VIC', emoji:'🦘', desc:'The best platypus viewing in Australia — a purpose-built observation area lets you watch them dive and forage through glass. Echidnas, wombats, dingoes and Tasmanian devils also live here.' },
+  { name:'Litchfield National Park', area:'Darwin surrounds, NT', emoji:'🌿', desc:'Crystal-clear swimming holes beneath cascading waterfalls including Florence Falls and Wangi Falls. Magnetic termite mounds stand like tombstones across the open plains — built to always face north-south.' },
+  { name:'Bay of Fires', area:'Northeast TAS', emoji:'🔶', desc:'Some of the most extraordinary beaches in the world: white sand, brilliant turquoise water and giant granite boulders painted vivid orange by a lichen unique to this coastline.' },
+  { name:'Jervis Bay', area:'NSW', emoji:'🐬', desc:'Home to some of the whitest sand in the world and water so clear it looks Caribbean. A pod of around 100 bottlenose dolphins lives permanently in the bay and swims alongside kayaks daily.' },
+  { name:'The Pinnacles', area:'Cervantes, WA', emoji:'🗿', desc:'Thousands of ancient limestone pillars rise from yellow sand in Nambung National Park, some reaching four metres tall. The alien landscape glows amber at sunset as emus wander between the columns.' },
+  { name:'Sovereign Hill', area:'Ballarat, VIC', emoji:'⛏️', desc:'A living museum recreating 1850s Ballarat at the height of the Gold Rush. Visitors pan for real gold in the creek and watch underground mine re-enactments in the tunnels below.' },
+  { name:'Wineglass Bay', area:'Freycinet, TAS', emoji:'🌊', desc:'A perfect semicircle of pink granite sand cradled between forested peninsulas, accessible by a 45-minute walk over the Freycinet saddle. Fur seals and dolphins frequent the bay below.' },
+  { name:'Kings Canyon', area:'Watarrka, NT', emoji:'🏜️', desc:'A 300-metre-deep canyon where the rim walk reveals the Lost City — hundreds of rounded sandstone domes sculpted over millions of years. A hidden gorge called the Garden of Eden holds a permanent waterhole.' },
+  { name:'Monkey Mia', area:'Shark Bay, WA', emoji:'🐬', desc:'Wild bottlenose dolphins have voluntarily come to this beach to interact with people for over 60 years. Rangers allow visitors to wade in and offer fish each morning — one of Australia\'s most extraordinary encounters.' },
+  { name:'Springbrook National Park', area:'Gold Coast Hinterland, QLD', emoji:'🦋', desc:'A glowworm tour takes families into a dark canyon where thousands of bioluminescent glowworms turn the rock walls into a constellation. Natural Arch is a spectacular cave carved by a waterfall.' },
+  { name:'Cable Beach', area:'Broome, WA', emoji:'🌅', desc:'Twenty-two kilometres of white sand backed by dramatic red pindan cliffs in the Kimberley. Camel trains carry families along the waterline at sunset in one of Australia\'s most iconic experiences.' },
+  { name:'Australian War Memorial', area:'Canberra, ACT', emoji:'🪖', desc:'The Last Post ceremony at 4:55pm daily, where a bugler plays and a family lays a wreath for a fallen serviceperson, is deeply moving even for young children. Free entry, extraordinary collections.' },
+  { name:'Grampians National Park', area:'Southwest VIC', emoji:'🏔️', desc:'Ancient sandstone ranges rise dramatically from the flat farming plains. Aboriginal rock art sites are among the most significant in southeastern Australia, and eastern grey kangaroos graze in the valleys at dawn.' },
+  { name:'Dandenong Ranges', area:'Melbourne, VIC', emoji:'🌿', desc:'Towering mountain ash trees and giant tree ferns fill cool gullies just 40km from Melbourne. Puffing Billy — a beloved century-old steam train — winds through the forests to Emerald Lake.' },
+  { name:'Lone Pine Koala Sanctuary', area:'Brisbane, QLD', emoji:'🐨', desc:'The world\'s first and largest koala sanctuary is home to over 130 koalas. Families can hold a koala for a photo and hand-feed kangaroos in a free-range paddock.' },
+  { name:'Carnarvon Gorge', area:'Central QLD', emoji:'🪨', desc:'A sandstone gorge in central Queensland contains one of Australia\'s finest collections of Aboriginal rock art — ochre stencils of hands and animals thousands of years old.' },
+  { name:'Tidbinbilla Nature Reserve', area:'Canberra, ACT', emoji:'🦘', desc:'Forty-five minutes from Canberra, this fenced sanctuary lets visitors walk freely among emus, kangaroos and wallabies. The platypus viewing boardwalk is one of the most reliable spots in the country.' },
+];
+
 const ARCS = [
   { name: 'Discovery',  brief: 'Hero finds something unexpected that changes how they see the world' },
   { name: 'Challenge',  brief: 'Hero faces a difficulty, persists, and grows because of it' },
@@ -108,11 +146,27 @@ async function generateStory(sub, apiKey) {
   // Pick hero — rotate through children each week
   const hero = children[storyCount % children.length];
 
-  // Pick location — prefer unvisited ones
+  // Pick location:
+  // Phase 1 — work through the family's chosen favourites first
+  // Phase 2 — once those are exhausted, auto-discover Australian landmarks
+  //           from our curated database so the passport keeps growing
   const visitedNames = passport.map(p => p.name);
-  const unvisited = selectedLocations.filter(l => !visitedNames.includes(l.name));
-  const pool = unvisited.length > 0 ? unvisited : selectedLocations;
-  const location = pool[storyCount % pool.length];
+  const unvisitedSelected = selectedLocations.filter(l => !visitedNames.includes(l.name));
+
+  let location;
+  if (unvisitedSelected.length > 0) {
+    // Still have family favourites to explore
+    location = unvisitedSelected[storyCount % unvisitedSelected.length];
+  } else {
+    // All chosen spots visited — start discovering Australia from our landmark database
+    const unvisitedLandmarks = AUSTRALIAN_LANDMARKS.filter(l => !visitedNames.includes(l.name));
+    if (unvisitedLandmarks.length > 0) {
+      location = unvisitedLandmarks[storyCount % unvisitedLandmarks.length];
+    } else {
+      // Visited everything — cycle back to family favourites with fresh arcs
+      location = selectedLocations[storyCount % selectedLocations.length];
+    }
+  }
 
   // Pick arc — rotate through arcs
   const arc = ARCS[storyCount % ARCS.length];

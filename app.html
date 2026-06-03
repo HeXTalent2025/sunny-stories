@@ -1417,9 +1417,19 @@ function updateBlueprintPreview(){
     document.getElementById('bpGrid').innerHTML = `
       <div style="background:rgba(64,219,225,.08);border:1px solid rgba(64,219,225,.25);border-radius:14px;padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text-dark);">
         <div style="font-weight:700;color:var(--ocean-deep);margin-bottom:6px;">🗺️ How your passport grows</div>
-        <div style="color:var(--text-soft);">Each Monday, ${child?.name||'your child'} gets a brand new story — rotating through your ${locs.length||'chosen'} location${locs.length!==1?'s':''} with a different adventure arc each time.</div>
-        ${locs.length>0?`<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;">${locs.slice(0,6).map(l=>`<span style="background:#fff;border:1px solid rgba(56,162,194,.2);border-radius:12px;padding:3px 9px;font-size:11px;font-weight:600;color:var(--ocean-deep);">${l.emoji||'📍'} ${l.name}</span>`).join('')}${locs.length>6?`<span style="font-size:11px;color:var(--text-soft);padding:3px 6px;">+${locs.length-6} more</span>`:''}</div>`:''}
-        <div style="margin-top:10px;font-size:11px;color:var(--text-soft);">With ${locs.length||5}+ locations & 6 story arcs, there are ${(locs.length||5)*6}+ unique adventures before anything repeats.</div>
+        <div style="color:var(--text-soft);margin-bottom:10px;">Each Monday, ${child?.name||'your child'} gets a brand new story in a place they haven't visited yet in their passport.</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <div style="flex:1;background:#fff;border:1px solid rgba(56,162,194,.2);border-radius:10px;padding:10px;font-size:11px;">
+            <div style="font-weight:700;color:var(--ocean-deep);margin-bottom:4px;">Phase 1 — Your favourites</div>
+            <div style="color:var(--text-soft);">First ${locs.length||'few'} weeks in your chosen spots</div>
+            ${locs.length>0?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">${locs.slice(0,4).map(l=>`<span style="background:var(--bg-section);border-radius:8px;padding:2px 7px;font-size:10px;font-weight:600;color:var(--ocean-deep);">${l.emoji||'📍'} ${l.name}</span>`).join('')}${locs.length>4?`<span style="font-size:10px;color:var(--text-soft);padding:2px 4px;">+${locs.length-4} more</span>`:''}</div>`:''}
+          </div>
+          <div style="flex:1;background:#fff;border:1px solid rgba(64,219,225,.25);border-radius:10px;padding:10px;font-size:11px;">
+            <div style="font-weight:700;color:var(--ocean-deep);margin-bottom:4px;">Phase 2 — Discover Australia 🌏</div>
+            <div style="color:var(--text-soft);">Then we automatically take ${child?.name||'them'} to new landmarks — Uluru, the Reef, Cradle Mountain — stamping a new place every week</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text-soft);">After 1 year: 52 unique locations, 52 stamps — a complete Australia Story Passport.</div>
       </div>`;
     document.getElementById('bpNote').textContent = 'Your first story is generated immediately. A new one arrives every Monday.';
     document.getElementById('bpCollapseBtn').style.display='none';
