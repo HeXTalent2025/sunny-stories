@@ -849,7 +849,7 @@ async function sPlay(idx) {
     const res = await fetch('/api/narrate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: SAMPLE_TEXT[idx], token: 'samples_v2', storyIdx: idx }),
+      body: JSON.stringify({ text: SAMPLE_TEXT[idx], token: 'samples_v3', storyIdx: idx }),
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
