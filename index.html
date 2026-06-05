@@ -342,7 +342,7 @@
 
     /* ── HOW IT WORKS ──────────────────────────── */
     .section { padding: 6rem 3rem; max-width: 1200px; margin: 0 auto; }
-    .section-full { padding: 6rem 3rem; }
+    .section-full { padding: 6rem 0; }
 
     .section-label {
       font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
@@ -832,76 +832,71 @@
 .passport-visual-stat strong { display: block; font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
 
 /* ── REDESIGNED PRICING ──────────────────────────────────── */
-.pricing-divider {
-  display: flex; align-items: center; gap: 1rem;
-  margin: 2.5rem 0 1.5rem;
-  max-width: 500px;
-  margin-left: auto; margin-right: auto;
-}
-.pricing-divider-line { flex: 1; height: 1px; background: rgba(48,108,164,.15); }
-.pricing-divider-text {
-  font-size: .78rem; font-weight: 600; letter-spacing: .08em;
-  text-transform: uppercase; color: var(--text-soft);
-  white-space: nowrap;
-}
-/* Passport hero pricing card */
-.pricing-passport-card {
-  max-width: 740px;
-  margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #1a4a78 0%, #306ca4 50%, #38a2c2 100%);
-  border-radius: 24px;
-  padding: 2.5rem 2.5rem 2rem;
-  color: #fff;
+/* ── 3-COLUMN PRICING GRID ───────────────────────────────── */
+.pricing-grid {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2rem;
-  align-items: start;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 2.5rem auto 0;
+  align-items: stretch;
+}
+@media (max-width: 860px) {
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+}
+.pricing-tile {
+  background: #fff;
+  border: 1.5px solid rgba(48,108,164,.15);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(48,108,164,.25);
+  transition: transform .2s, box-shadow .2s;
 }
-@media (max-width: 640px) {
-  .pricing-passport-card { grid-template-columns: 1fr; }
+.pricing-tile:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(48,108,164,.1); }
+.pricing-tile.featured {
+  background: linear-gradient(160deg, #1a4a78 0%, #306ca4 55%, #38a2c2 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 16px 48px rgba(48,108,164,.28);
+  transform: translateY(-6px);
 }
-.pricing-passport-card::before {
-  content: '🗺️';
-  position: absolute; top: -10px; right: 24px;
-  font-size: 80px; opacity: .12;
+.pricing-tile.featured:hover { transform: translateY(-9px); box-shadow: 0 20px 52px rgba(48,108,164,.32); }
+.tile-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--ocean); color: #fff;
+  font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  border-radius: 20px; padding: .28rem .85rem; white-space: nowrap;
 }
-.pp-badge {
-  display: inline-flex; align-items: center; gap: .4rem;
-  background: rgba(255,255,255,.18);
-  border-radius: 20px; padding: .28rem .85rem;
-  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: #fff;
-  margin-bottom: .9rem;
-}
-.pp-title { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
-.pp-sub { font-size: .9rem; color: rgba(255,255,255,.78); margin-bottom: 1.2rem; }
-.pp-features { list-style: none; margin-bottom: 1.6rem; display: flex; flex-direction: column; gap: .5rem; }
-.pp-features li { font-size: .88rem; color: rgba(255,255,255,.88); display: flex; align-items: flex-start; gap: .5rem; line-height: 1.5; }
-.pp-features li::before { content: '✦'; color: var(--ocean-bright); flex-shrink: 0; margin-top: 1px; }
-.pp-cta {
-  display: inline-flex; align-items: center; gap: .5rem;
-  background: #fff; color: var(--ocean-deep);
-  font-size: .95rem; font-weight: 700;
+.featured .tile-badge { background: var(--ocean-bright); color: var(--ocean-deep); }
+.tile-type { font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-soft); margin-bottom: .5rem; }
+.featured .tile-type { color: rgba(255,255,255,.6); }
+.tile-price { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: var(--ocean-deep); line-height: 1; margin-bottom: .2rem; }
+.tile-price sup { font-size: 1.3rem; vertical-align: super; }
+.tile-price .tile-period { font-size: .85rem; font-weight: 400; color: var(--text-soft); }
+.featured .tile-price { color: #fff; }
+.featured .tile-price .tile-period { color: rgba(255,255,255,.65); }
+.tile-per { font-size: .82rem; color: var(--text-soft); margin-bottom: 1.4rem; }
+.featured .tile-per { color: rgba(255,255,255,.72); }
+.tile-features { list-style: none; flex: 1; display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.6rem; }
+.tile-features li { font-size: .86rem; color: var(--text-soft); display: flex; align-items: flex-start; gap: .5rem; line-height: 1.5; }
+.tile-features li::before { content: '✓'; color: var(--ocean); font-weight: 700; flex-shrink: 0; margin-top: 1px; font-size: .8rem; }
+.featured .tile-features li { color: rgba(255,255,255,.88); }
+.featured .tile-features li::before { content: '✦'; color: var(--ocean-bright); }
+.tile-cta {
+  display: block; text-align: center;
+  font-size: .92rem; font-weight: 700;
   text-decoration: none;
-  padding: .9rem 1.8rem; border-radius: 50px;
-  transition: transform .18s, box-shadow .18s;
-  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  padding: .85rem 1.2rem; border-radius: 50px;
+  transition: background .2s, transform .15s;
+  background: var(--ocean); color: #fff;
 }
-.pp-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
-.pp-note { margin-top: .75rem; font-size: .78rem; color: rgba(255,255,255,.55); }
-/* Right column price display */
-.pp-price-col { text-align: center; min-width: 120px; }
-.pp-price-num {
-  font-family: 'Fraunces', serif;
-  font-size: 3.2rem; font-weight: 700;
-  color: #fff; line-height: 1;
-}
-.pp-price-num sup { font-size: 1.4rem; vertical-align: super; }
-.pp-price-period { font-size: .82rem; color: rgba(255,255,255,.65); margin-top: .2rem; }
-.pp-price-equiv { font-size: .75rem; color: rgba(255,255,255,.5); margin-top: .25rem; }
+.tile-cta:hover { background: var(--ocean-deep); }
+.featured .tile-cta { background: #fff; color: var(--ocean-deep); }
+.featured .tile-cta:hover { background: rgba(255,255,255,.9); }
+.tile-note { margin-top: .65rem; font-size: .74rem; color: var(--text-soft); text-align: center; line-height: 1.5; }
+.featured .tile-note { color: rgba(255,255,255,.5); }
 
 /* ── GIFT STRIP ──────────────────────────────────────────── */
 .gift-strip {
@@ -1423,8 +1418,8 @@
         <div class="yoto-player-card">
           <div class="yoto-player-icon">📻</div>
           <div class="yoto-player-label">Now playing</div>
-          <div class="yoto-player-title">Lily and the Pink Shell</div>
-          <div class="yoto-player-sub">Kings Beach · Wonder arc</div>
+          <div class="yoto-player-title">Oscar and the World Under the Water</div>
+          <div class="yoto-player-sub">Great Barrier Reef · Discovery arc</div>
         </div>
         <div style="font-size:0.78rem;color:rgba(255,255,255,.4);text-align:center;line-height:1.6;">Download all 10 stories as MP3s<br>and load them onto your Yoto player</div>
       </div>
@@ -1441,82 +1436,63 @@
       <h2>Three ways to <em>get your stories</em></h2>
     </div>
 
-    <!-- Passport hero — full-width featured card -->
-    <div class="pricing-passport-card reveal">
-      <div>
-        <div class="pp-badge">✨ Most popular · Story of the Week</div>
-        <div class="pp-title">Australia Story Passport</div>
-        <div class="pp-sub">One brand new personalised audio story, delivered every Monday.</div>
-        <ul class="pp-features">
-          <li>A new story every week — your child is always the hero</li>
-          <li>Starts in your favourite places, then discovers Australia</li>
-          <li>Genuine Australian facts woven naturally into each adventure</li>
-          <li>Stories grow richer as your child grows older</li>
-          <li>52 stories · 52 Australian places after 1 year</li>
-          <li>Cancel any time — every story stays yours forever</li>
-        </ul>
-        <a href="/app?plan=subscription" class="pp-cta">
-          Start my Story Passport
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <div class="pp-note">First story delivered immediately · Cancel any time</div>
-      </div>
-      <div class="pp-price-col">
-        <div class="pp-price-num"><sup>$</sup>9.99</div>
-        <div class="pp-price-period">per month</div>
-        <div class="pp-price-equiv">~$2.50 per story</div>
-      </div>
-    </div>
+    <!-- 3-column pricing grid -->
+    <div class="pricing-grid reveal">
 
-    <!-- One-time divider -->
-    <div class="pricing-divider reveal">
-      <div class="pricing-divider-line"></div>
-      <div class="pricing-divider-text">Or, a one-time purchase</div>
-      <div class="pricing-divider-line"></div>
-    </div>
-
-    <!-- One-time plans -->
-    <div class="pricing-plans reveal">
-
-      <div class="pricing-plan">
-        <div class="plan-type-label">Try it out</div>
-        <div class="plan-price-main"><span>$</span>2.99</div>
-        <div class="plan-per">1 personalised audio story</div>
-        <ul class="plan-features">
-          <li>1 original story starring your child by name</li>
-          <li>Australian-accented narration included</li>
+      <!-- Try it out -->
+      <div class="pricing-tile">
+        <div class="tile-type">Try it out</div>
+        <div class="tile-price"><sup>$</sup>2.99</div>
+        <div class="tile-per">1 personalised audio story</div>
+        <ul class="tile-features">
+          <li>1 original story starring your child</li>
+          <li>Australian-accented narration</li>
           <li>Set in your favourite Australian location</li>
-          <li>Customisable Story DNA before you pay</li>
+          <li>Customise Story DNA before you pay</li>
           <li>Downloadable MP3 — works on Yoto</li>
           <li>Yours to keep forever</li>
         </ul>
-        <a href="/app?plan=single" class="btn-secondary-large">
-          Start with one story
-        </a>
-        <div class="price-note">No account required · delivered in ~1 minute</div>
+        <a href="/app?plan=single" class="tile-cta">Start with one story</a>
+        <div class="tile-note">No account · delivered in ~1 minute</div>
       </div>
 
-      <div class="pricing-plan featured">
-        <div class="plan-recommended">Best value</div>
-        <div class="plan-type-label">Full Collection</div>
-        <div class="plan-price-main"><span>$</span>25</div>
-        <div class="plan-per">10 stories · <strong style="color:var(--ocean-deep);">$2.50 each</strong></div>
-        <ul class="plan-features">
-          <li>10 original stories starring your child by name</li>
-          <li>Australian-accented narration on every story</li>
-          <li>113+ Australian landmark locations to choose from</li>
-          <li>Add friends, cousins &amp; siblings as characters</li>
-          <li>Customise Story DNA — swap locations, arcs &amp; costars</li>
-          <li>Words highlight as each story is narrated</li>
-          <li>Download all as MP3s — works on Yoto players</li>
-          <li>Gift a collection with a shareable reveal link</li>
-          <li>Yours to keep, re-listen to, and treasure forever</li>
+      <!-- Story Passport — featured centre -->
+      <div class="pricing-tile featured">
+        <div class="tile-badge">✨ Most popular</div>
+        <div class="tile-type">Story of the Week</div>
+        <div class="tile-price"><sup>$</sup>9.99<span class="tile-period">/mo</span></div>
+        <div class="tile-per">One new story, every Monday</div>
+        <ul class="tile-features">
+          <li>New audio story every week</li>
+          <li>Starts in your favourite places</li>
+          <li>Then discovers all of Australia 🌏</li>
+          <li>Australian facts woven into every adventure</li>
+          <li>Stories grow richer as your child grows older</li>
+          <li>52 stories · 52 places after 1 year</li>
+          <li>Cancel any time — stories stay yours</li>
         </ul>
-        <a href="/app" class="btn-primary-large">
-          Get the full collection
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <div class="price-note">No subscription · no account required · everything included</div>
+        <a href="/app?plan=subscription" class="tile-cta">Start my Story Passport</a>
+        <div class="tile-note">First story immediately · Cancel any time</div>
+      </div>
+
+      <!-- Full Collection -->
+      <div class="pricing-tile">
+        <div class="tile-badge" style="background:var(--gold);">Best value</div>
+        <div class="tile-type">Full Collection</div>
+        <div class="tile-price"><sup>$</sup>25</div>
+        <div class="tile-per">10 stories · $2.50 each</div>
+        <ul class="tile-features">
+          <li>10 original stories starring your child</li>
+          <li>Australian narration on every story</li>
+          <li>113+ Australian landmark locations</li>
+          <li>Add friends &amp; siblings as characters</li>
+          <li>Customise Story DNA — arcs, costars</li>
+          <li>Words highlight as each story is narrated</li>
+          <li>Download all as MP3s — works on Yoto</li>
+          <li>Gift with a beautiful reveal link</li>
+        </ul>
+        <a href="/app" class="tile-cta">Get the full collection</a>
+        <div class="tile-note">No subscription · no account required</div>
       </div>
 
     </div>
