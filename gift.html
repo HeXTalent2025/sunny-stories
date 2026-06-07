@@ -610,7 +610,7 @@
   </div>
   <div class="stories-intro">
     <h2 id="readerHeading">Your stories</h2>
-    <p>Tap a story to start listening</p>
+    <p id="readerSubtitle">Tap a story to start listening</p>
   </div>
   <div class="story-grid" id="storyGrid"></div>
 </div>
@@ -643,8 +643,10 @@
 <script>
   const params = new URLSearchParams(location.search);
   const token = params.get('token');
-  const name    = params.get('name')    || '';
-  const occasion = params.get('occasion') || '';
+  const name       = params.get('name')         || '';
+  const occasion   = params.get('occasion')     || '';
+  const subToken   = params.get('sub_token')    || '';
+  const isSub      = !!subToken || params.get('subscription') === '1';
 
   // Occasion data — drives icon, label, heading
   const OCCASIONS = {
@@ -670,17 +672,27 @@
     document.getElementById('giftFromLabel').textContent = `A gift for ${name}`;
   }
 
+  // Update cover sub-text for subscription gifts
+  if (isSub) {
+    const sub = document.querySelector('.gift-sub');
+    if (sub) sub.textContent = 'A growing collection of personalised audio stories starring your children — set in Australian locations they love, with a new story added every Monday. 🗺️';
+  }
+
   let stories = [];
   let currentStoryIdx = 0;
   const audioCache = {};
   const GAUDIO = { playing: false, el: null, hasAudio: false };
 
   async function openGift() {
-    if (!token) { showError(); return; }
+    if (!token && !subToken) { showError(); return; }
     document.getElementById('cover').style.display = 'none';
     document.getElementById('loading').style.display = 'flex';
     try {
-      const res = await fetch(`/api/stories?token=${token}`);
+      // Subscription gifts use sub-stories endpoint; regular gifts use stories endpoint
+      const fetchUrl = subToken
+        ? `/api/sub-stories?token=${subToken}`
+        : `/api/stories?token=${token}`;
+      const res = await fetch(fetchUrl);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
       stories = data.stories || data;
@@ -696,6 +708,10 @@
     document.getElementById('loading').style.display = 'none';
     const heading = name ? `${name}'s Stories` : 'Your Stories';
     document.getElementById('readerHeading').textContent = heading;
+    if (isSub) {
+      const sub = document.getElementById('readerSubtitle');
+      if (sub) sub.textContent = 'New stories added every Monday 🗺️';
+    }
     const grid = document.getElementById('storyGrid');
     const _gCached = new Set(Object.keys(audioCache).map(Number));
     grid.innerHTML = stories.map((s, i) => {

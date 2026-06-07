@@ -1635,20 +1635,8 @@ async function submitForm(){
 }
 
 function selectPlan(p){
-  // Gift mode can't be combined with subscription — redirect to bundle
-  if(p==='subscription'&&ST.giftMode){
-    p='bundle';
-    document.getElementById('planSub')?.classList.remove('selected');
-    document.getElementById('planSubCheck').textContent='';
-    const note=document.getElementById('giftSubNote');
-    if(!note){
-      const el=document.createElement('div');
-      el.id='giftSubNote';
-      el.style.cssText='font-size:11px;color:var(--text-soft);text-align:center;padding:6px 0 2px;';
-      el.textContent='Subscriptions can\'t be gifted — use Full Collection instead.';
-      document.getElementById('planSub')?.after(el);
-    }
-  }
+  // Remove any old subscription note if switching away
+  document.getElementById('giftSubNote')?.remove();
   ST.plan=p;
   const isSingle=p==='single';
   const isSub=p==='subscription';
@@ -1687,7 +1675,9 @@ function updateSubmitBtn(){
   const isSingle=ST.plan==='single';
   const isSub=ST.plan==='subscription';
   const price=isSingle?'$2.99':isSub?'$9.99/mo':'$25';
-  if(ST.giftMode){
+  if(ST.giftMode && isSub){
+    btn.textContent='🎁 Gift a Story Passport · $9.99/mo';
+  } else if(ST.giftMode){
     btn.textContent=`🎁 Create Gift ${isSingle?'Story':'Collection'} · ${isSingle?'$2.99':'$25'}`;
   } else if(isSub){
     btn.textContent=`🗺️ Start My Story Passport · $9.99/mo`;
@@ -2673,11 +2663,16 @@ function renderGiftReady(){
   const occ=ST.giftOccasion;
   const occData=GIFT_OCCASIONS[occ];
   const storyCount=ST.stories?.length||10;
-  // Build gift link
-  const link=ST.giftToken ? [
-    `${appUrl}/gift?token=${ST.giftToken}`,
+  const isSub=ST.plan==='subscription';
+  // Subscription gifts use sub_token (growing weekly collection)
+  // Regular gifts use giftToken (fixed collection)
+  const activeToken=isSub ? ST.subToken : ST.giftToken;
+  const tokenParam=isSub ? 'sub_token' : 'token';
+  const link=activeToken ? [
+    `${appUrl}/gift?${tokenParam}=${activeToken}`,
     name ? `&name=${encodeURIComponent(name)}` : '',
     occ  ? `&occasion=${encodeURIComponent(occ)}` : '',
+    isSub ? '&subscription=1' : '',
   ].join('') : null;
   ST._giftLink=link;
   // Heading
@@ -2685,10 +2680,11 @@ function renderGiftReady(){
   document.getElementById('giftReadyHeading').textContent=
     name ? `${name}'s ${occLabel} is ready! ${occData?.emoji||'🎁'}` : `Your ${occLabel} is ready! ${occData?.emoji||'🎁'}`;
   // Subheading
+  const subNote=isSub?' New stories are added every Monday as the collection grows.':'';
   document.getElementById('giftReadySub').textContent=
     name
-      ? `Share the link with ${name} — they'll see a beautiful${occData?' '+occData.label:''} gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.`
-      : `Share the link — they'll see a beautiful gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.`;
+      ? `Share the link with ${name} — they'll see a beautiful${occData?' '+occData.label:''} gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.${subNote}`
+      : `Share the link — they'll see a beautiful gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.${subNote}`;
   if(link){
     document.getElementById('giftLinkText').textContent=link;
   } else {
