@@ -572,72 +572,18 @@
 
 <!-- COVER -->
 <div id="cover">
-
-  <!-- Floating kids — desktop only, shown only for Claire's token -->
-  <div id="claireStage">
-    <!-- Left upper -->
-    <div class="float-kid" style="left:12px; top:16%; --dur:7.2s; --delay:0s; --ty:-22px; --r1:-4deg; --r2:2deg;">
-      <div class="speech-bubble" style="--bd:0.3s">Love you Mum! 💕</div>
-      <img src="/images/claire/kid1.png" alt="" style="--w:96px; --h:96px; --radius:50%;">
-    </div>
-    <!-- Right upper -->
-    <div class="float-kid" style="right:12px; top:8%; --dur:6.8s; --delay:1.1s; --ty:-18px; --r1:3deg; --r2:-2deg;">
-      <div class="speech-bubble" style="--bd:0.7s">We love you! 🥰</div>
-      <img src="/images/claire/kid2.png" alt="" style="--w:96px; --h:96px; --radius:50%;">
-    </div>
-    <!-- Right lower -->
-    <div class="float-kid" style="right:12px; bottom:20%; --dur:8.5s; --delay:0.5s; --ty:18px; --r1:2deg; --r2:-4deg;">
-      <div class="speech-bubble" style="--bd:1s">Best Mum ever! 🔥</div>
-      <img src="/images/claire/kid3.png" alt="" style="--w:100px; --h:140px; --radius:18px;">
-    </div>
-    <!-- Left lower -->
-    <div class="float-kid" style="left:12px; bottom:16%; --dur:9.2s; --delay:2.2s; --ty:16px; --r1:-2deg; --r2:4deg;">
-      <div class="speech-bubble" style="--bd:1.4s">My hero! ✨</div>
-      <img src="/images/claire/kid4.png" alt="" style="--w:100px; --h:148px; --radius:18px;">
-    </div>
-    <!-- Right middle -->
-    <div class="float-kid" style="right:12px; top:44%; --dur:7.6s; --delay:1.8s; --ty:-16px; --r1:1deg; --r2:-3deg;">
-      <div class="speech-bubble" style="--bd:0.8s">Happy Mum's Day! 🌸</div>
-      <img src="/images/claire/kid5.png" alt="" style="--w:96px; --h:96px; --radius:50%;">
-    </div>
-  </div>
-
-  <!-- Photo strip — mobile only, shown only for Claire's token -->
-  <div id="claireStrip">
-    <div class="strip-kid">
-      <div class="strip-bubble" style="--bd:0.2s">Love you! 💕</div>
-      <img src="/images/claire/kid1.png" alt="">
-    </div>
-    <div class="strip-kid">
-      <div class="strip-bubble" style="--bd:0.4s">We love you! 🥰</div>
-      <img src="/images/claire/kid2.png" alt="">
-    </div>
-    <div class="strip-kid">
-      <div class="strip-bubble" style="--bd:0.6s">Best Mum! 🔥</div>
-      <img src="/images/claire/kid3.png" alt="" style="object-position:top center;">
-    </div>
-    <div class="strip-kid">
-      <div class="strip-bubble" style="--bd:0.8s">My hero! ✨</div>
-      <img src="/images/claire/kid4.png" alt="" style="object-position:top center;">
-    </div>
-    <div class="strip-kid">
-      <div class="strip-bubble" style="--bd:1s">Happy Mum's Day! 🌸</div>
-      <img src="/images/claire/kid5.png" alt="">
-    </div>
-  </div>
-
-  <span class="gift-icon">🌸</span>
-  <div class="from-label">A Mother's Day gift</div>
-  <h1 class="gift-heading" id="recipientHeading">Happy Mother's Day</h1>
-  <p class="gift-sub">10 personalised audio stories, crafted especially for your family — set in the Sunshine Coast places you love most.</p>
+  <span class="gift-icon" id="giftIcon">🎁</span>
+  <div class="from-label" id="giftFromLabel">A gift for you</div>
+  <h1 class="gift-heading" id="recipientHeading">A gift, just for your family</h1>
+  <p class="gift-sub">Personalised audio stories starring your children, set in the Australian places your family loves — narrated in a warm Australian accent.</p>
 
   <button class="btn-open" onclick="openGift()">Open your gift 🎁</button>
-  <div class="open-note">No account needed · Read instantly</div>
+  <div class="open-note">No account needed · Listen instantly</div>
 
   <div class="card-wrap">
-    <div class="card-detail"><span class="dot">✦</span> 10 unique stories, just for you</div>
-    <div class="card-detail"><span class="dot">✦</span> Your children, your favourite places</div>
-    <div class="card-detail"><span class="dot">✦</span> Narrated in an Australian accent — listen in the car, at bedtime</div>
+    <div class="card-detail"><span class="dot">✦</span> Personalised stories starring your children by name</div>
+    <div class="card-detail"><span class="dot">✦</span> Set in your favourite Australian places</div>
+    <div class="card-detail"><span class="dot">✦</span> Narrated in a warm Australian accent</div>
     <div class="card-detail"><span class="dot">✦</span> Yours to listen to, anytime, anywhere</div>
   </div>
 
@@ -660,7 +606,7 @@
 <div id="reader">
   <div class="reader-header">
     <a href="/" class="reader-brand">Sunny <span>Stories</span></a>
-    <div class="mothers-day-badge">Mother's Day 🌸</div>
+    <div class="mothers-day-badge" id="readerBadge">A gift 🎁</div>
   </div>
   <div class="stories-intro">
     <h2 id="readerHeading">Your stories</h2>
@@ -697,25 +643,37 @@
 <script>
   const params = new URLSearchParams(location.search);
   const token = params.get('token');
-  const name = params.get('name');
+  const name    = params.get('name')    || '';
+  const occasion = params.get('occasion') || '';
 
-  // Floating kids — only for Claire's gift
-  if (token === 'f9a3e62d-138b-4bb0-b347-e897c0d04d3e') {
-    const stage = document.getElementById('claireStage');
-    const strip = document.getElementById('claireStrip');
-    if (stage) stage.style.display = 'block';  // CSS media query hides on mobile
-    if (strip) strip.style.display = 'flex';   // CSS media query hides on desktop
+  // Occasion data — drives icon, label, heading
+  const OCCASIONS = {
+    'mothers-day':  { text: "Happy Mother's Day",  emoji: '🌸', label: "Mother's Day gift" },
+    'fathers-day':  { text: "Happy Father's Day",   emoji: '☀️', label: "Father's Day gift"  },
+    'birthday':     { text: 'Happy Birthday',        emoji: '🎂', label: 'Birthday gift'       },
+    'christmas':    { text: 'Happy Christmas',        emoji: '🎄', label: 'Christmas gift'      },
+    'just-because': { text: 'A gift for',             emoji: '🎁', label: 'A gift'              },
+    'new-baby':     { text: 'Welcome to the family', emoji: '👶', label: 'New baby gift'       },
+    'thank-you':    { text: 'Thank you',              emoji: '💛', label: 'A thank you gift'    },
+  };
+  const occ = OCCASIONS[occasion] || null;
+
+  // Update cover dynamically
+  if (occ) {
+    document.getElementById('giftIcon').textContent = occ.emoji;
+    document.getElementById('giftFromLabel').textContent = `A ${occ.label}`;
+    document.getElementById('readerBadge').textContent = `${occ.label} ${occ.emoji}`;
+    const heading = name ? `${occ.text}, ${name} ${occ.emoji}` : `${occ.text} ${occ.emoji}`;
+    document.getElementById('recipientHeading').textContent = heading;
+  } else if (name) {
+    document.getElementById('recipientHeading').textContent = `A gift for ${name} 🎁`;
+    document.getElementById('giftFromLabel').textContent = `A gift for ${name}`;
   }
 
   let stories = [];
-  let bundleUpgrade = false;
   let currentStoryIdx = 0;
   const audioCache = {};
   const GAUDIO = { playing: false, el: null, hasAudio: false };
-
-  if (name) {
-    document.getElementById('recipientHeading').textContent = `Happy Mother's Day, ${name} 🌸`;
-  }
 
   async function openGift() {
     if (!token) { showError(); return; }

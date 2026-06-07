@@ -501,11 +501,21 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
     </div>
   </div>
 
-  <!-- Gift recipient name (gift mode only) -->
+  <!-- Gift recipient + occasion (gift mode only) -->
   <div id="giftRecipientPanel" style="display:none;" class="panel">
-    <div class="panel-title">🎀 Who's the gift for?</div>
-    <label class="f-label">Recipient's name <span style="font-weight:400;color:var(--text-low)">(optional — personalises their gift page)</span></label>
+    <div class="panel-title">🎀 Tell us about the gift</div>
+    <label class="f-label">Who's the gift for? <span style="font-weight:400;color:var(--text-low)">(optional — personalises their gift page)</span></label>
     <input class="f-input" id="giftRecipientInput" placeholder="e.g. Claire" oninput="ST.giftRecipient=this.value.trim()">
+    <label class="f-label">What's the occasion?</label>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;" id="occasionChips">
+      <div class="chip" id="occ-mothers-day"   onclick="setGiftOccasion('mothers-day',this)">🌸 Mother's Day</div>
+      <div class="chip" id="occ-fathers-day"   onclick="setGiftOccasion('fathers-day',this)">☀️ Father's Day</div>
+      <div class="chip" id="occ-birthday"      onclick="setGiftOccasion('birthday',this)">🎂 Birthday</div>
+      <div class="chip" id="occ-christmas"     onclick="setGiftOccasion('christmas',this)">🎄 Christmas</div>
+      <div class="chip" id="occ-just-because"  onclick="setGiftOccasion('just-because',this)">🎁 Just Because</div>
+      <div class="chip" id="occ-new-baby"      onclick="setGiftOccasion('new-baby',this)">👶 New Baby</div>
+      <div class="chip" id="occ-thank-you"     onclick="setGiftOccasion('thank-you',this)">💛 Thank You</div>
+    </div>
   </div>
 
   <!-- Step 1: Children + per-child interests -->
@@ -837,6 +847,7 @@ const ST = {
   purchaseEmail: null,
   giftMode: false,
   giftRecipient: '',
+  giftOccasion: '',
   giftToken: null,
   pendingSubSessionId: null,
   pendingSubEmail: null,
@@ -1610,6 +1621,7 @@ async function submitForm(){
     if(ST.giftMode){
       localStorage.setItem('sst_gift_mode','1');
       localStorage.setItem('sst_gift_recipient',ST.giftRecipient||'');
+      localStorage.setItem('sst_gift_occasion',ST.giftOccasion||'');
     }
     if(isSub){
       localStorage.setItem('sst_sub_mode','1');
@@ -2611,7 +2623,7 @@ async function saveAndEmail(sessionId){
     const res=await fetch('/api/save',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({stories:ST.stories,sessionId,giftRecipient:ST.giftRecipient||null})
+      body:JSON.stringify({stories:ST.stories,sessionId,giftRecipient:ST.giftRecipient||null,giftOccasion:ST.giftOccasion||null})
     });
     if(!res.ok) throw new Error('Save failed');
     const {email,token}=await res.json();
@@ -2624,19 +2636,42 @@ async function saveAndEmail(sessionId){
   }
 }
 
+const GIFT_OCCASIONS={
+  'mothers-day':  {label:"Mother's Day", emoji:'🌸'},
+  'fathers-day':  {label:"Father's Day", emoji:'☀️'},
+  'birthday':     {label:'Birthday',      emoji:'🎂'},
+  'christmas':    {label:'Christmas',     emoji:'🎄'},
+  'just-because': {label:'Gift',          emoji:'🎁'},
+  'new-baby':     {label:'Baby Gift',     emoji:'👶'},
+  'thank-you':    {label:'Thank You Gift',emoji:'💛'},
+};
+function setGiftOccasion(val,el){
+  ST.giftOccasion = ST.giftOccasion===val ? '' : val;
+  document.querySelectorAll('[id^="occ-"]').forEach(c=>c.classList.remove('sel-sun'));
+  if(ST.giftOccasion) el.classList.add('sel-sun');
+}
 function renderGiftReady(){
   const appUrl='https://sunnystories.co';
   const name=ST.giftRecipient;
-  const link=ST.giftToken
-    ? (name ? `${appUrl}/gift?token=${ST.giftToken}&name=${encodeURIComponent(name)}` : `${appUrl}/gift?token=${ST.giftToken}`)
-    : null;
+  const occ=ST.giftOccasion;
+  const occData=GIFT_OCCASIONS[occ];
+  const storyCount=ST.stories?.length||10;
+  // Build gift link
+  const link=ST.giftToken ? [
+    `${appUrl}/gift?token=${ST.giftToken}`,
+    name ? `&name=${encodeURIComponent(name)}` : '',
+    occ  ? `&occasion=${encodeURIComponent(occ)}` : '',
+  ].join('') : null;
   ST._giftLink=link;
+  // Heading
+  const occLabel=occData?.label||'Gift';
   document.getElementById('giftReadyHeading').textContent=
-    name ? `${name}'s gift is ready! 🎁` : 'Your gift is ready! 🎁';
+    name ? `${name}'s ${occLabel} is ready! ${occData?.emoji||'🎁'}` : `Your ${occLabel} is ready! ${occData?.emoji||'🎁'}`;
+  // Subheading
   document.getElementById('giftReadySub').textContent=
     name
-      ? `Share the link below with ${name} — they'll see a beautiful gift page with all 10 stories waiting inside.`
-      : 'Share the link below — they\'ll see a beautiful gift page with all 10 stories waiting inside.';
+      ? `Share the link with ${name} — they'll see a beautiful${occData?' '+occData.label:''} gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.`
+      : `Share the link — they'll see a beautiful gift page with ${storyCount===1?'their story':`all ${storyCount} stories`} waiting inside.`;
   if(link){
     document.getElementById('giftLinkText').textContent=link;
   } else {
@@ -2792,8 +2827,10 @@ renderChildBlocks();
   if(gift||savedGift){
     ST.giftMode=true;
     ST.giftRecipient=p.get('name')||localStorage.getItem('sst_gift_recipient')||'';
+    ST.giftOccasion=p.get('occasion')||localStorage.getItem('sst_gift_occasion')||'';
     localStorage.removeItem('sst_gift_mode');
     localStorage.removeItem('sst_gift_recipient');
+    localStorage.removeItem('sst_gift_occasion');
     showGiftMode();
   }
 
@@ -2828,6 +2865,10 @@ function showGiftMode(){
   document.getElementById('giftRecipientPanel').style.display='block';
   const inp=document.getElementById('giftRecipientInput');
   if(inp&&ST.giftRecipient) inp.value=ST.giftRecipient;
+  if(ST.giftOccasion){
+    const chip=document.getElementById(`occ-${ST.giftOccasion}`);
+    if(chip) chip.classList.add('sel-sun');
+  }
   const btn=document.getElementById('submitBtn');
   if(btn) btn.textContent='🎁 Create Gift Audio Stories · $25';
 }
