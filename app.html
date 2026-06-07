@@ -2127,7 +2127,7 @@ function wrapWords(html, startIdx=0){
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    AUDIO ENGINE — ElevenLabs narration
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-const AUDIO={playing:false,autoAdvancing:false,rate:1.0,audioEl:null,hasAudio:false,alignment:null,_lastWi:-1};
+const AUDIO={playing:false,autoAdvancing:false,rate:1.0,audioEl:null,hasAudio:false,alignment:null,_lastWi:-1,knownDuration:0};
 
 function renderScrollingReader(s){
   const iconEl=document.getElementById('sceneIcon');
@@ -2374,8 +2374,12 @@ function resetScrubber(){
 }
 
 function seekAudio(pct){
-  if(!AUDIO.audioEl||!isFinite(AUDIO.audioEl.duration))return;
-  AUDIO.audioEl.currentTime=(pct/100)*AUDIO.audioEl.duration;
+  if(!AUDIO.audioEl)return;
+  // Use server-calculated duration — browser often misreads duration for
+  // concatenated MP3s (reports only the first chunk's length)
+  const dur=AUDIO.knownDuration||(isFinite(AUDIO.audioEl.duration)?AUDIO.audioEl.duration:0);
+  if(!dur)return;
+  AUDIO.audioEl.currentTime=(pct/100)*dur;
 }
 
 function startAudioFromUrl(url, knownDuration, alignment){
@@ -2384,6 +2388,7 @@ function startAudioFromUrl(url, knownDuration, alignment){
   clearHighlights();
   AUDIO.alignment = alignment || null;
   AUDIO._lastWi = -1;
+  AUDIO.knownDuration = knownDuration || 0;
   const el=AUDIO.audioEl=new Audio();
   let settled=false;
 
@@ -2415,14 +2420,26 @@ function startAudioFromUrl(url, knownDuration, alignment){
     if(isFinite(el.duration) && el.duration > (knownDuration||0)) updateScrubber(el.currentTime, el.duration);
   };
   el.ontimeupdate=()=>{
-    const dur = (isFinite(el.duration) && el.duration > (knownDuration||0)) ? el.duration : (knownDuration || el.duration);
-    updateScrubber(el.currentTime, dur);
+    const kd=AUDIO.knownDuration;
+    // Prefer knownDuration — browsers under-report duration for concatenated MP3s
+    const dur=kd||(isFinite(el.duration)?el.duration:0);
+    updateScrubber(el.currentTime,dur);
     if(AUDIO.alignment) highlightWord(el.currentTime);
   };
   el.onended=()=>{
+    // Guard against premature ended events on concatenated MP3s —
+    // browsers sometimes fire ended after the first chunk's duration
+    const kd=AUDIO.knownDuration;
+    if(kd && el.currentTime < kd * 0.92){
+      // False end — seek just past current point and resume
+      el.currentTime=el.currentTime+0.1;
+      el.play().catch(()=>{});
+      return;
+    }
     AUDIO.playing=false;AUDIO.hasAudio=false;
     audioSetStatus('Story complete ✨','');
-    updateScrubber(el.duration, el.duration);
+    const dur=kd||(isFinite(el.duration)?el.duration:0);
+    if(dur)updateScrubber(dur,dur);
     updatePlayBtn();
   };
   el.onerror=()=>{if(AUDIO.playing)done(false);};

@@ -5,10 +5,11 @@ export const config = { maxDuration: 120 };
 const redis = new Redis({ url: process.env.KV_REST_API_URL, token: process.env.KV_REST_API_TOKEN });
 
 // ── Text chunking ────────────────────────────────────────────────────────────
-// ElevenLabs degrades in volume on long inputs (500+ words). Splitting into
-// ~200-word chunks and concatenating the MP3 buffers keeps energy consistent
-// throughout. Chunks run in parallel so latency is roughly the same.
-function splitIntoChunks(text, maxWords = 200) {
+// ElevenLabs degrades in volume on very long inputs (1000+ words). We chunk
+// at 500 words — large enough that most stories (300-400 words) are a single
+// chunk, avoiding MP3 concatenation issues where browsers misread duration from
+// only the first chunk's header (causes premature ended events + scrubber drift).
+function splitIntoChunks(text, maxWords = 500) {
   const paragraphs = text.split(/\n+/).map(p => p.trim()).filter(Boolean);
   const chunks = [];
   let current = [];
@@ -96,7 +97,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'text is required' });
   }
 
-  const cacheKey = (token && storyIdx !== undefined) ? `narration_${token}_${storyIdx}` : null;
+  // v2 cache key — busts old concatenated-chunk cache entries that had duration issues
+  const cacheKey = (token && storyIdx !== undefined) ? `narration_v2_${token}_${storyIdx}` : null;
 
   // Check Redis cache first — fail silently so ElevenLabs is always the fallback
   if (cacheKey) {
