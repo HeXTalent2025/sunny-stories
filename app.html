@@ -564,7 +564,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg-primary);col
 
   <!-- Blueprint preview (shows when enough info entered) -->
   <div class="blueprint-preview hidden" id="blueprintPreview">
-    <div class="bp-title">🗂️ Your story blueprint <button class="bp-reshuffle-btn" onclick="bpReshuffle()">🔀 Re-shuffle</button></div>
+    <div class="bp-title" id="bpTitleLine">🗂️ Your story blueprint <button class="bp-reshuffle-btn" id="bpReshuffleBtn" onclick="bpReshuffle()">🔀 Re-shuffle</button></div>
     <div style="background:linear-gradient(135deg,rgba(64,219,225,.12),rgba(56,162,194,.1));border:1px solid rgba(64,219,225,.35);border-radius:10px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;">
       <span style="font-size:16px;flex-shrink:0;">✏️</span>
       <div style="font-size:12px;color:var(--ocean-deep);line-height:1.5;"><strong>Customise before you pay.</strong> Tap any <span style="color:var(--ocean);font-weight:600;">location</span>, <span style="color:var(--terracotta);font-weight:600;">activity</span>, <span style="color:#7a5c00;font-weight:600;">arc</span> or <span style="font-weight:600;">character</span> below to adjust it — or hit Re-shuffle for a fresh mix.</div>
@@ -1034,7 +1034,20 @@ function go(screen){
   if(screen==='s-list'){ renderStoryList(); }
   if(screen==='s-form') updateBlueprintPreview();
 }
-function returnFromExplorer(){ updateFormLocations(); go('s-form'); }
+function returnFromExplorer(){
+  updateFormLocations();
+  // Switch to form screen but scroll to the locations panel, not the top
+  audioStop();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('s-form').classList.remove('hidden');
+  updateBlueprintPreview();
+  setTimeout(()=>{
+    const el=document.getElementById('selLocBar')?.style.display!=='none'
+      ? document.getElementById('selLocBar')
+      : document.getElementById('browseBtn');
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  }, 80);
+}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    CHILDREN + PER-CHILD INTERESTS
@@ -1410,6 +1423,16 @@ function updateBlueprintPreview(){
   const bps = buildBlueprints();
   ST.blueprints = bps;
 
+  // Update blueprint title based on plan
+  const titleEl=document.getElementById('bpTitleLine');
+  const reshuffleBtn=document.getElementById('bpReshuffleBtn');
+  if(titleEl){
+    const isSingle=ST.plan==='single';
+    const isSub=ST.plan==='subscription';
+    titleEl.childNodes[0].textContent= isSingle ? '🗂️ Your story ' : isSub ? '🗺️ Your Story Passport ' : '🗂️ Your 10 stories ';
+    if(reshuffleBtn) reshuffleBtn.style.display = isSub ? 'none' : '';
+  }
+
   // Subscription mode — show a passport preview instead of the 10-story grid
   if(ST.plan === 'subscription'){
     const locs = ST.selectedLocations;
@@ -1582,12 +1605,12 @@ async function submitForm(){
       return;
     }
     if(data.error) throw new Error(data.error);
-    // Persist gift state across Stripe redirect
+    // Persist state across Stripe redirect
+    localStorage.setItem('sst_plan', ST.plan||'bundle');
     if(ST.giftMode){
       localStorage.setItem('sst_gift_mode','1');
       localStorage.setItem('sst_gift_recipient',ST.giftRecipient||'');
     }
-    // Persist subscription state across Stripe redirect
     if(isSub){
       localStorage.setItem('sst_sub_mode','1');
     }
@@ -1600,6 +1623,20 @@ async function submitForm(){
 }
 
 function selectPlan(p){
+  // Gift mode can't be combined with subscription — redirect to bundle
+  if(p==='subscription'&&ST.giftMode){
+    p='bundle';
+    document.getElementById('planSub')?.classList.remove('selected');
+    document.getElementById('planSubCheck').textContent='';
+    const note=document.getElementById('giftSubNote');
+    if(!note){
+      const el=document.createElement('div');
+      el.id='giftSubNote';
+      el.style.cssText='font-size:11px;color:var(--text-soft);text-align:center;padding:6px 0 2px;';
+      el.textContent='Subscriptions can\'t be gifted — use Full Collection instead.';
+      document.getElementById('planSub')?.after(el);
+    }
+  }
   ST.plan=p;
   const isSingle=p==='single';
   const isSub=p==='subscription';
@@ -2760,9 +2797,24 @@ renderChildBlocks();
     showGiftMode();
   }
 
-  // Restore subscription mode from localStorage after Stripe redirect
+  // Restore plan from localStorage after Stripe redirect (sets loading hint immediately)
+  const savedPlan=localStorage.getItem('sst_plan');
+  if(savedPlan){ ST.plan=savedPlan; localStorage.removeItem('sst_plan'); }
   const savedSub=localStorage.getItem('sst_sub_mode');
   if(savedSub){ ST.plan='subscription'; localStorage.removeItem('sst_sub_mode'); }
+  // Pre-update loading hint based on restored plan
+  if(savedPlan||savedSub){
+    const hint=document.getElementById('loadingTimeHint');
+    if(hint){
+      const isSingle=ST.plan==='single';
+      const isSub=ST.plan==='subscription';
+      hint.innerHTML=isSingle
+        ? 'Writing your personalised story takes around 1 minute.<br>Please keep this page open ✨'
+        : isSub
+        ? 'Writing your first personalised story takes around 1 minute.<br>Please keep this page open ✨'
+        : 'Writing your 10 stories takes around 2–3 minutes.<br>Please keep this page open ✨';
+    }
+  }
 
   if(subToken) loadFromSubToken(subToken);
   else if(subSession) handleSubscriptionReturn(subSession);

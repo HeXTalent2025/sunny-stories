@@ -52,7 +52,9 @@ export default async function handler(req, res) {
   await resend.emails.send({
     from: 'Sunny Stories <stories@sunnystories.co>',
     to: email,
-    subject: `🎧 ${childNames}'s audio stories are ready to listen`,
+    subject: stories.length === 1
+      ? `🎧 ${childNames}'s personalised story is ready to listen`
+      : `🎧 ${childNames}'s ${stories.length} audio stories are ready to listen`,
     html: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -67,28 +69,28 @@ export default async function handler(req, res) {
       <td bgcolor="#306ca4" align="center" style="padding:36px 40px;">
         <div style="font-size:36px;line-height:1;margin-bottom:10px;">☀️</div>
         <div style="color:#ffffff;font-size:26px;font-weight:700;letter-spacing:1px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Sunny Stories</div>
-        <div style="color:#c8e6f5;font-size:14px;margin-top:6px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Personalised stories for Sunshine Coast families</div>
+        <div style="color:#c8e6f5;font-size:14px;margin-top:6px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Personalised audio stories for Australian families</div>
       </td>
     </tr>
 
     <!-- Body -->
     <tr>
       <td style="padding:36px 40px;">
-        <h1 style="margin:0 0 12px;font-size:24px;color:#1a2e3a;font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Your audio stories are ready! 🎧</h1>
+        <h1 style="margin:0 0 12px;font-size:24px;color:#1a2e3a;font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${stories.length === 1 ? 'Your story is ready! 🎧' : `Your ${stories.length} stories are ready! 🎧`}</h1>
         <p style="margin:0 0 24px;color:#4a6070;font-size:16px;line-height:1.6;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-          We've written 10 original stories starring <strong style="color:#306ca4;">${childNames}</strong>,
-          set in your favourite Sunshine Coast spots — and each one is narrated in a warm Australian accent.
-          Tap the button to open your collection and start listening.
+          We've written ${stories.length === 1 ? 'an original story' : `${stories.length} original stories`} starring <strong style="color:#306ca4;">${childNames}</strong>,
+          set in ${stories.length === 1 ? 'their favourite Australian location' : 'their favourite Australian locations'} — narrated in a warm Australian accent.
+          Tap the button to open ${stories.length === 1 ? 'it' : 'your collection'} and start listening.
         </p>
 
         <!-- Story preview -->
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td bgcolor="#f0f8fc" style="border-radius:12px;padding:16px 20px;margin-bottom:24px;">
-              <div style="font-size:11px;font-weight:700;color:#38a2c2;letter-spacing:1px;margin-bottom:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">A PEEK AT YOUR COLLECTION</div>
+              <div style="font-size:11px;font-weight:700;color:#38a2c2;letter-spacing:1px;margin-bottom:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${stories.length === 1 ? 'YOUR STORY' : 'A PEEK AT YOUR COLLECTION'}</div>
               <ul style="margin:0;padding:0 0 0 18px;color:#4a6070;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.8;">
                 ${previewTitles}
-                <li style="margin:4px 0;">…and 7 more stories</li>
+                ${stories.length > 3 ? `<li style="margin:4px 0;">…and ${stories.length - 3} more ${stories.length - 3 === 1 ? 'story' : 'stories'}</li>` : ''}
               </ul>
             </td>
           </tr>
